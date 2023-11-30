@@ -1,0 +1,73 @@
+<table class="table table-hover table-basic mb-0">
+  <tr>
+    <td colspan="2" class="styled-title mb-2">
+      <h3>{{ "Media details"|trans }}</h3>
+    </td>
+  </tr>
+  {% if media.logo %}
+  <tr>
+    <td>{{ "Logo"|trans }}</td>
+    <td><img src="{{ asset(media.image) }}" class="d-inline-block align-text-top" alt="{{ media.name }}" height="60" /></td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>{{ "Name"|trans }}</td>
+    <td>{{ media.name }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Category"|trans }}</td>
+    <td>{{ media.category }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Country"|trans }}</td>
+    <td>{{ media.country }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Language"|trans }}</td>
+    <td>{{ media.language }}</td>
+  </tr>
+  <tr>
+    <td>{{ "contact"|trans }}</td>
+    <td>{{ media.contact }}</td>
+  </tr>
+  <tr>
+    <td>{{ "email"|trans }}</td>
+    <td>{{ media.email }}</td>
+  </tr>
+   <tr>
+    <td>{{ "telephone"|trans }}</td>
+    <td>{{ media.telephone }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Visitors count"|trans }}</td>
+    <td>{{ media.visitorsCount }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Website"|trans }}</td>
+    <td>{{ media.website }}</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="styled-title mb-2">
+      <h3>{{ "Interests"|trans }}</h3>
+    </td>
+  </tr>
+  {% for mediainterest in media.getInterests() %}
+  <tr>
+    <td colspan="2">
+      {{ mediainterest.getInterest() }}
+    </td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td colspan="2" class="styled-title mb-2">
+      <h3>{{ "Geographical systems"|trans }}</h3>
+    </td>
+    {% for geographicalSystem in media.getGeographicalSystems() %}
+  <tr>
+    <td colspan="2">
+      {{ geographicalSystem.getGeographicalSystem() }}
+    </td>
+  </tr>
+  {% endfor %}
+
+</table>

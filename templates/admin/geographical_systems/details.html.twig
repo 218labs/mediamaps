@@ -1,0 +1,22 @@
+<table class="table table-hover table-basic mb-0">
+  <tr>
+    <td>{{ "Logo"|trans }}</td>
+    <td><img src="{{ asset(societe.image) }}" class="d-inline-block align-text-top" alt="{{ societe.name }}" height="60" /></td>
+  </tr>
+  <tr>
+    <td>{{ "Nom"|trans }}</td>
+    <td>{{ societe.name }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Accueil"|trans }}</td>
+    <td>{{ societe.accueil }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Adresse"|trans }}</td>
+    <td>{{ societe.adress }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Email"|trans }}</td>
+    <td>{{ societe.email }}</td>
+  </tr>
+</table>

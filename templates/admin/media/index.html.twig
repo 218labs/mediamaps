@@ -1,0 +1,34 @@
+{% extends 'layout/admin.html.twig' %}
+
+{% block body %}
+
+  <div class="row mb-4">
+    <div class="col-lg-10 col-9">
+      <h1 class="page-name">
+        <i class="bi bi-megaphone"></i>
+        {{ "Media"|trans }}
+      </h1>
+    </div>
+    <div class="col-lg-2 col-3">
+      <div class="float-end">
+        <a href="{{ path('media.create') }}" class="btn btn-outline-primary rounded-0 shadow-none">
+        <i class="bi bi-plus"></i>
+        <span class="d-none d-lg-inline-block">{{ "Add"|trans }}</span>
+        </a>
+        {% if is_granted('ROLE_ADMIN') %}   
+        {% include "partials/export-results.html.twig" with { path: path('media.export') } %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% include "layout/form/search/index.html.twig" with { 
+    form: search_form,
+    tableId: "media" 
+  } %}
+
+  <ajax-table id="media" url="{{ path('media.table') }}">
+    {{ table|raw }}
+  </ajax-table>
+
+{% endblock %}

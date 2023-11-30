@@ -1,0 +1,48 @@
+<table class="table table-hover table-basic mb-0">
+  {% if link.fileName %}
+  <tr>
+    <td>{{ "File"|trans }}</td>
+    <td><img src="{{ asset(link.fileName) }}" class="d-inline-block align-text-top" alt="{{ link.fileName }}" height="60" /></td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>{{ "Title"|trans }}</td>
+    <td><a href="{{ link.link }}" target="_blank">{{ link.title }}</a></td>
+  </tr>
+  <tr>
+    <td>{{ "Compaign"|trans }}</td>
+    <td>{{ link.compaign }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Language"|trans }}</td>
+    <td>{{ link.language }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Media"|trans }}</td>
+    <td>{{ link.media }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Category"|trans }}</td>
+    <td>{{ link.category }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Orientation"|trans }}</td>
+    <td>{{ link.orientation }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Geographical scope"|trans }}</td>
+    <td>{{ link.geographicalScope }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Published on"|trans }}</td>
+    <td>{% if link.publishedOn is not empty %}{{ link.publishedOn|date("m/d/Y") : '' }} {% endif %}</td>
+  </tr>
+  {% if link.attachement %}
+  <tr>
+    <td>{{ "File"|trans }}</td>
+    <td>{{ link.attachement }}</td>
+  </tr>
+  {% endif %}
+  
+
+</table>

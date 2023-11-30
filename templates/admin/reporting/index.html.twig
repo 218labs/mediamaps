@@ -1,0 +1,120 @@
+{% extends 'layout/admin.html.twig' %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="page-name">
+        <i class="bi bi-clipboard-data"></i>
+        {{ "Stats"|trans }}
+      </h1>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-4 mb-sm-2">
+        <div class="card-body d-flex flex-column align-items-center p-3">
+          <i class="bi bi-megaphone fs-1"></i>
+          <span class="fs-4 text-uppercase text-center">{{ "Medias"|trans }}</span>
+          <span class="fw-bold fs-3">{{ medias_count }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-4 mb-sm-2">
+        <div class="card-body d-flex flex-column align-items-center p-3">
+          <i class="bi bi-paperclip fs-1"></i>
+          <span class="fs-4 text-uppercase text-center">{{ "Compaigns"|trans }}</span>
+          <span class="fw-bold fs-3">{{ compaigns_count }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-2 mb-sm-2">
+        <div class="card-body d-flex flex-column align-items-center p-3">
+          <i class="bi bi-link fs-1"></i>
+          <span class="fs-4 text-uppercase text-center">{{ "Links"|trans }}</span>
+          <span class="fw-bold fs-3">{{ links_count }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-4 mb-sm-2">
+        <div class="card-body d-flex flex-column align-items-center p-3">
+          <i class="bi bi-chat-quote fs-1"></i>
+          <span class="fs-4 text-uppercase text-center">{{ "Languages"|trans }}</span>
+          <span class="fw-bold fs-3">{{ languages_count }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-4 mb-sm-2">
+        <div class="card-body d-flex flex-column align-items-center p-3">
+          <i class="bi bi-globe fs-1"></i>
+          <span class="fs-4 text-uppercase text-center">{{ "Countries"|trans }}</span>
+          <span class="fw-bold fs-3">{{ countries|length  }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-2 mb-sm-2">
+        <div class="card-body d-flex flex-column align-items-center p-3">
+          <i class="bi bi-people fs-1"></i>
+          <span class="fs-4 text-uppercase text-center">{{ "Website visitors"|trans }}</span>
+          <span class="fw-bold fs-3">{{ visitors_count|number_format }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-4 mb-sm-2">
+      <div class="card-body d-flex flex-column align-items-center p-3">
+        <span class="fs-4 text-uppercase text-center mb-3">{{ "Countries"|trans }}</span>
+        <div class="row">
+           {% for country in countries %}
+           <div class="col-md-4">
+              <img src="/img/flags/svg/{{country.countrycode}}.svg" alt="{{country.countrycode}}" style="max-width:20px">   {{country.countryname}}
+            </div>
+           {% endfor %}
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-4 mb-sm-2">
+      <div class="card-body d-flex flex-column align-items-center p-3">
+        <span class="fs-4 text-uppercase text-center mb-3">{{ "Languages"|trans }}</span>
+        <div class="row">
+           {% for language in languages %}
+           <div class="col">
+              {{ language.lang }}
+            </div>
+           {% endfor %}
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm rounded-0 mb-2 mb-sm-2">
+         add folowers count
+
+         merge countries and languages 
+         add logos of medias 
+
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}
+
+{% block footer %}
+  {{ parent() }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}

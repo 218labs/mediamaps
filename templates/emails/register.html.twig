@@ -1,0 +1,47 @@
+{% extends 'layout/email.html.twig' %}
+
+{% block title %}Invitation de {{ entity.societe }} {% endblock %}
+
+{% block body %}
+<container>
+        <row>
+            <columns>
+               <center>
+                <img src="{{ absolute_url(asset(entity.societe.image)) }}" width="216" height="135" alt="{{entity.societe}}"/>
+                </center>
+            </columns>
+         </row>   
+   <row class="body">
+   <p>Bonjour, </p>
+   <p>Vous avez été invité à visiter {{ entity.societe }}</p>
+
+
+<p>Avant d'être autorisé sur le site, vous devrez renseigner vos informations (Société, Nom, CIN, email, téléphone) en cliquant sur le lien ci-dessous : </p>
+
+<row>
+  <columns class="register">
+    <spacer size="16"></spacer>
+    <center>
+    <button class="btn-primary" target="_blank" href="{{ absolute_url(path('register_visiteur', {'token': entity.token })) }}">Accepter l'invitation</button>
+    </center>
+  </columns>
+</row>  
+
+<p>Assurez-vous d'avoir remplir le formulaire d'enregistrement afin de confirmer votre visite .</p>
+
+</row>
+
+<row>
+  <columns>
+     <p><strong>Invité par: </strong> {{ entity.user }}</p>
+     <p><strong>Adresse: </strong> {{ entity.societe }}, {{ entity.societe.adress }}</p>
+     <p><strong>Date de la visite: </strong> {{ entity.dateVisite|date("d/m/Y") }}</p>
+     <p><strong>Heure de la visite: </strong> {{ entity.dateVisite|date("H:i") }}</p>
+  </columns>
+</row> 
+
+</container>
+
+{% endblock %}
+
+{% block footer %}Site web: {{ entity.societe.website }} - Email: {{ entity.societe.email }} - Téléphone: {{ entity.societe.telephone }}{% endblock %}

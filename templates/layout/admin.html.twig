@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.getLocale() }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% include 'partials/service-worker-meta.html.twig' %}
+  <title>{% block title %}RASD{% endblock %}</title>
+  {% block head %}
+    {{ encore_entry_link_tags('app') }}
+  {% endblock %}
+</head>
+<body class="admin-layout">
+
+  {% set route_name = app.request.get('_route') %}
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm" id="primary-navbar">
+    <div class="container-fluid">
+      
+      <a class="navbar-brand ms-3 me-5" href="{{ path('home') }}" style="font-size: 1.5; font-weight: 800; color: #0075b9;">
+       <!--<img src="{{ asset('assets/img/logo-no-background.png') }}" alt="RASD" class="d-inline-block align-text-top" height="60">-->
+       MEDIA MAPS
+      </a>
+      <button 
+        type="button" 
+        class="navbar-toggler" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#admin-navbar" 
+        aria-controls="admin-navbar" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="admin-navbar">
+        <ul class="navbar-nav">
+          <li class="d-block d-lg-none mt-1">
+            <hr class="dropdown-divider">
+          </li>
+          {% block navbar %}
+          
+        {% if is_granted('ROLE_ADMIN') %}   
+          <li class="nav-item">
+            <a
+              href="{{ path('media') }}"
+              class="nav-link{{ route_name == 'media' ? ' active' }}"
+            >
+              <i class="bi bi-megaphone"></i>
+                {{ "Medias"|trans }}
+            </a>
+          </li>
+        {% endif %}
+          <li class="nav-item">
+            <a
+              href="{{ path('compaigns') }}"
+              class="nav-link{{ route_name == 'compaigns' ? ' active' }}"
+            >
+              <i class="bi bi-paperclip"></i>
+                {{ "Compaigns"|trans }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              href="{{ path('link') }}"
+              class="nav-link{{ route_name == 'link' ? ' active' }}"
+            >
+              <i class="bi bi-link"></i>
+                {{ "Links"|trans }}
+            </a>
+          </li> 
+          <li class="nav-item">
+            <a
+              href="{{ path('reporting') }}"
+              class="nav-link{{ route_name == 'reporting' ? ' active' }}"
+            >
+              <i class="bi bi-clipboard-data"></i>
+              {{ "Reporting"|trans }}
+            </a>
+          </li>
+          <li class="d-block d-lg-none">
+            <hr class="dropdown-divider">
+          </li>
+          {% if is_granted('ROLE_ADMIN') %}
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('users') }}" class="nav-link{{ route_name == 'users' ? ' active' }}">
+              <i class="bi bi-people"></i>
+              {{ "Users"|trans }}
+            </a>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('countries') }}" class="nav-link{{ route_name == 'countries' ? ' active' }}">
+              <i class="bi bi-globe"></i>
+              {{ "Countries"|trans }}
+            </a>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('categories') }}" class="nav-link{{ route_name == 'categories' ? ' active' }}">
+              <i class="bi bi-inbox"></i>
+              {{ "Categories"|trans }}
+            </a>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('interests') }}" class="nav-link{{ route_name == 'interests' ? ' active' }}">
+              <i class="bi bi-bookmarks"></i>
+              {{ "Interests"|trans }}
+            </a>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('geographical_systems') }}" class="nav-link{{ route_name == 'geographical_systems' ? ' active' }}">
+              <i class="bi bi-building"></i>
+              {{ "Geographical systems"|trans }}
+            </a>
+          </li>
+          {% endif %}
+          {% endblock %}
+          {% if is_granted('ROLE_ADMIN') %}
+          <li class="d-block d-lg-none">
+            <hr class="dropdown-divider">
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('mail.history') }}" class="nav-link{{ route_name == 'mail.history' ? ' active' }}">
+              <i class="bi bi-envelope-open"></i>
+              {{ "Emails"|trans }}
+            </a>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('cronjobs') }}" class="nav-link{{ route_name == 'cronjobs' ? ' active' }}">
+              <i class="bi bi-lightning"></i>
+              {{ "Cron Jobs"|trans }}
+            </a>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a href="{{ path('settings') }}" class="nav-link{{ route_name == 'settings' ? ' active' }}">
+              <i class="bi bi-gear"></i>
+              {{ "settings"|trans }}
+            </a>
+          </li>
+          <li class="d-block">
+            <hr class="dropdown-divider">
+          </li>
+          {% endif %}
+          <li class="nav-item d-block d-lg-none">
+            <ajax-modal url="{{ path('user.update', {id: app.user.getId()}) }}" width="600">
+              <a class="nav-link" href="#">
+                <i class="bi bi-person"></i>
+                {{ "My account"|trans }}
+              </a>
+            </ajax-modal>
+          </li>
+          <li class="nav-item d-block d-lg-none">
+            <a class="nav-link" href="{{ path('logout') }}">
+              <i class="bi bi-box-arrow-left"></i>
+              {{ "Logout"|trans }}
+            </a>
+          </li>
+        </ul>
+        <!-- user menu -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-none d-lg-block">
+          <li class="nav-item dropdown dropdown-account">
+            <a class="nav-link dropdown-toggle" href="#" id="user-account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="bg-secondary text-white rounded-circle fs-5" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ app.user.getFullName() }}" style="width: 53px; height: 50px; display: block; text-align: center; padding: 11px 0px;">{{ app.user.getShortName() }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="user-account">
+              {% if is_granted('ROLE_ADMIN') %}
+              <li>
+                <a
+                  href="{{ path('users') }}"
+                  class="dropdown-item{{ route_name == 'users' ? ' active' }}"
+                >
+                  <i class="bi bi-people"></i>
+                  {{ "Users"|trans }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="{{ path('interests') }}" class="dropdown-item{{ route_name == 'interests' ? ' active' }}">
+                  <i class="bi bi-bookmarks"></i>
+                  {{ "Interests"|trans }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="{{ path('countries') }}" class="dropdown-item{{ route_name == 'countries' ? ' active' }}">
+                  <i class="bi bi-globe"></i>
+                  {{ "Countries"|trans }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="{{ path('languages') }}" class="dropdown-item{{ route_name == 'languages' ? ' active' }}">
+                  <i class="bi bi-chat-dots"></i>
+                  {{ "Languages"|trans }}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ path('categories') }}" class="dropdown-item{{ route_name == 'categories' ? ' active'}}">
+                  <i class="bi bi-inbox"></i>
+                  {{ "Categories"|trans }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="{{ path('geographical_systems') }}"
+                  class="dropdown-item{{ route_name == 'geographical_systems' ? ' active' }}"
+                >
+                  <i class="bi bi-building"></i>
+                  {{ "Geo systems"|trans }}
+                </a>
+              </li>
+              <li class="d-block">
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a
+                  href="{{ path('mail.history') }}"
+                  class="dropdown-item{{ route_name == 'mail.history' ? ' active' }}"
+                >
+                  <i class="bi bi-envelope-open"></i>
+                  {{ "Emails"|trans }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="{{ path('cronjobs') }}"
+                  class="dropdown-item{{ route_name == 'cronjobs' ? ' active' }}"
+                >
+                  <i class="bi bi-lightning"></i>
+                  {{ "Cron Jobs"|trans }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="{{ path('settings') }}"
+                  class="dropdown-item{{ route_name == 'settings' ? ' active' }}"
+                >
+                  <i class="bi bi-gear"></i>
+                  {{ "Settings"|trans }}
+                </a>
+              </li>
+              <li class="d-block">
+                <hr class="dropdown-divider">
+              </li>
+              {% endif %}
+              <li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <ajax-modal url="{{ path('user.update', {id: app.user.getId()}) }}" width="600">
+                  <a class="dropdown-item" href="#">
+                    <i class="bi bi-person"></i>
+                    {{ "My account"|trans }}
+                  </a>
+                </ajax-modal>
+                {% else %}
+                <ajax-modal url="{{ path('user.details', {id: app.user.getId()}) }}" width="600">
+                  <a class="dropdown-item" href="#">
+                    <i class="bi bi-person"></i>
+                    {{ "My account"|trans }}
+                  </a>
+                </ajax-modal>
+                {% endif %}
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ path('logout') }}">
+                  <i class="bi bi-box-arrow-left"></i>
+                  {{ "Logout"|trans }}
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  {% include 'partials/sidebar.html.twig' %}
+
+  <div class="container-fluid my-4 px-4">
+    {% include 'layout/alert.html.twig' %}
+    {% block body %}{% endblock %}
+  </div>
+
+  {% block footer %}
+    {{ encore_entry_script_tags('app') }}
+    {% include 'partials/webpush.html.twig' %}
+    {% include 'partials/service-worker-script.html.twig' %}
+  {% endblock %}
+</body>
+</html>

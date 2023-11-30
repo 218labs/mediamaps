@@ -1,0 +1,22 @@
+<table class="table table-hover table-basic mb-0">
+  <tr>
+    <td>{{ "Code"|trans }}</td>
+    <td>{{ country.countrycode }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Name"|trans }}</td>
+    <td>{{ country.countryname }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Continent"|trans }}</td>
+    <td>{{ country.continentname }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Languages"|trans }}</td>
+    <td>{{ country.languages }}</td>
+  </tr>
+  <tr>
+    <td>{{ "Flag"|trans }}</td>
+    <td><img src="/img/flags/svg/{{country.countrycode}}.svg" alt="{{country.countrycode}}" style="max-width:20px"></td>
+  </tr>
+</table>

@@ -1,0 +1,50 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.b81d3386.js",
+        "/build/477.532fbe4e.js",
+        "/build/819.8be28608.js",
+        "/build/270.6f3f6737.js",
+        "/build/app.0fe4e3e7.js"
+      ],
+      "css": [
+        "/build/270.2c2ace24.css",
+        "/build/app.70ac3be5.css"
+      ]
+    },
+    "salles": {
+      "js": [
+        "/build/runtime.b81d3386.js",
+        "/build/477.532fbe4e.js",
+        "/build/719.b9653f5c.js",
+        "/build/salles.61d7a55e.js"
+      ]
+    },
+    "calendar": {
+      "js": [
+        "/build/runtime.b81d3386.js",
+        "/build/477.532fbe4e.js",
+        "/build/819.8be28608.js",
+        "/build/814.d95632f6.js",
+        "/build/932.5ffa3fe0.js",
+        "/build/calendar.2ff82033.js"
+      ],
+      "css": [
+        "/build/calendar.a556a7d0.css"
+      ]
+    },
+    "courses_calendar": {
+      "js": [
+        "/build/runtime.b81d3386.js",
+        "/build/477.532fbe4e.js",
+        "/build/819.8be28608.js",
+        "/build/814.d95632f6.js",
+        "/build/courses_calendar.de62f228.js"
+      ],
+      "css": [
+        "/build/courses_calendar.a556a7d0.css"
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{% extends 'layout/email.html.twig' %}
+
+{% block title %}Confirmation de RDV{% endblock %}
+
+{% block body %}
+<container>
+        <row class="float-center">
+            <columns>
+                <center>
+                <img src="{{ absolute_url(asset(entity.societe.image)) }}" width="216" height="135" alt="{{entity.societe}}"/>
+                </center>
+            </columns>
+         </row>   
+   <row class="body">
+   <p>Bonjour, </p>
+   <p>Votre RDV à {{ entity.societe }} est confirmé !</p>
+   <p>RDV organisé par : <b>{{ entity.user }}</b></p> 
+   <p>Le <b>{{ entity.dateVisite|date("d/m/Y") }}</b> à <b>{{ entity.dateVisite|date("H:i") }}</b></p>
+   <p><a href="{{ entity.societe.position }}">Cliquez ici pour nous géolocaliser </a></p>
+
+   <p><center><img src="{{ absolute_url(asset(entity.qr)) }}" alt="qrcode"></center></p>
+   <p><br><br>Ce QR code vous sera demandé à votre arrivée.</p>
+
+</row>
+  
+</container>
+{% endblock %}
+
+{% block footer %}
+<row>
+<columns small="12" large="12">
+<center>
+  <small style="color:#FFF">Place carrée, Mahaj Ryad, Immeuble Business 5, 4ème étage Hay Riad – Rabat</small>
+</center>
+<center>
+  <small><a href="http://{{ entity.societe.website }}">{{ entity.societe.website }}</a></small> 
+  <small style="color:#000"> | </small>
+  <small><a href="mailto:{{ entity.societe.email }}">{{ entity.societe.email }}</a></small> 
+  <small style="color:#000"> | </small>
+  <small><a href="tel:{{ entity.societe.telephone }}">{{ entity.societe.telephone }}</a></small> 
+</center>
+</columns>
+</row>
+
+{% endblock %}

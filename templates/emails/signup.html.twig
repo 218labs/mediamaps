@@ -1,0 +1,42 @@
+{% apply inky_to_html|inline_css(source('@assets/css/email.css')) %}
+<container>
+        <row class="header container body-border float-center">
+            <columns>
+                <spacer size="16"></spacer>
+                <h1 class="text-center"><img src="http://visiteurs.madaef.ma/assets/img/logo.png" alt="{{ visite.societe}}"></h1>
+            </columns>
+         </row>   
+   <row>
+   <p>Bonjour, </p>
+   <p>Vous avez été invité à visiter {{ visite.societe }}</p>
+
+
+<p>Avant d'être autorisé sur le site, vous devrez renseigner vos informations (Nom, CIN, email, téléphone) en cliquant sur le lien "Accepter l'invitation".</p>
+
+<p>Assurez-vous d'avoir remplir le formulaire d'enregistrement afin de recevoir .</p>
+
+<p>Après avoir remplir le formulaire vous recevez un email de confirmation </p>
+
+</row>
+
+<row>
+  <columns>
+     <p><strong>Invité par: </strong> {{ visite.user }}</p>
+     <p><strong>Adresse: </strong> {{ visite.societe.adress }}</p>
+     <p><strong>Date: </strong> {{ visite.dateVisite|date("d/m/Y") }}</p>
+     <p><strong>Heure: </strong> {{ visite.dateVisite|date("H:i") }}</p>
+  </columns>
+</row> 
+
+
+<row>
+            <columns>
+                <center>
+                    <button href="{{ url('register_visiteur', {'token': visite.token }) }}">Accepter l'invitation</button>
+                </center>
+            </columns>
+        </row>   
+
+</container>
+
+{% endapply %}
