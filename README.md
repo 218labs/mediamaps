@@ -1,3 +1,3 @@
 # mediamaps
 
-## maps
+## MediaMaps
