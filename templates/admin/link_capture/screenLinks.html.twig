@@ -1,0 +1,30 @@
+{% extends 'layout/admin.html.twig' %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="col-md-8 offset-md-2">
+        <div >
+            {% if countLinks == 0 %}
+                <div class="alert alert-secondary" role="alert">
+                    <h5>All Links has screens</h5>
+                </div>
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    <h5>There are {{ countLinks }} links that do not have a screen.</h5>
+                </div>
+            {% endif %}
+            {% if countLinkUpdate %}
+                <div class="alert alert-success" role="alert">
+                    <h5>{{ countLinkUpdate }} links have been updated out of {{ countLinks }}.</h5>
+                </div>
+            {% endif %}
+        </div>
+        <div class="mt-5">
+            {% if countLinks %}
+                 <a href="{{ path('link_DoCapture') }}" class="btn btn-primary" role="button" data-bs-toggle="button">Get Screens</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

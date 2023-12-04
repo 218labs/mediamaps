@@ -31,9 +31,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator;
  */
 class ConfigBuilderGenerator implements ConfigBuilderGeneratorInterface
 {
-    /**
-     * @var ClassBuilder[]
-     */
     private $classes;
     private $outputDir;
 
@@ -62,7 +59,8 @@ class ConfigBuilderGenerator implements ConfigBuilderGeneratorInterface
 public function NAME(): string
 {
     return \'ALIAS\';
-}', ['ALIAS' => $rootNode->getPath()]);
+}
+        ', ['ALIAS' => $rootNode->getPath()]);
 
             $this->writeClasses();
         }
@@ -92,10 +90,6 @@ public function NAME(): string
         foreach ($this->classes as $class) {
             $this->buildConstructor($class);
             $this->buildToArray($class);
-            if ($class->getProperties()) {
-                $class->addProperty('_usedProperties', null, '[]');
-            }
-            $this->buildSetExtraKey($class);
 
             file_put_contents($this->getFullPath($class), $class->build());
         }
@@ -132,43 +126,16 @@ public function NAME(): string
     private function handleArrayNode(ArrayNode $node, ClassBuilder $class, string $namespace): void
     {
         $childClass = new ClassBuilder($namespace, $node->getName());
-        $childClass->setAllowExtraKeys($node->shouldIgnoreExtraKeys());
         $class->addRequire($childClass);
         $this->classes[] = $childClass;
 
-        $hasNormalizationClosures = $this->hasNormalizationClosures($node);
-        $property = $class->addProperty(
-            $node->getName(),
-            $this->getType($childClass->getFqcn(), $hasNormalizationClosures)
-        );
-        $body = $hasNormalizationClosures ? '
-/**
- * @return CLASS|$this
- */
-public function NAME($value = [])
-{
-    if (!\is_array($value)) {
-        $this->_usedProperties[\'PROPERTY\'] = true;
-        $this->PROPERTY = $value;
-
-        return $this;
-    }
-
-    if (!$this->PROPERTY instanceof CLASS) {
-        $this->_usedProperties[\'PROPERTY\'] = true;
-        $this->PROPERTY = new CLASS($value);
-    } elseif (0 < \func_num_args()) {
-        throw new InvalidConfigurationException(\'The node created by "NAME()" has already been initialized. You cannot pass values the second time you call NAME().\');
-    }
-
-    return $this->PROPERTY;
-}' : '
+        $property = $class->addProperty($node->getName(), $childClass->getFqcn());
+        $body = '
 public function NAME(array $value = []): CLASS
 {
     if (null === $this->PROPERTY) {
-        $this->_usedProperties[\'PROPERTY\'] = true;
         $this->PROPERTY = new CLASS($value);
-    } elseif (0 < \func_num_args()) {
+    } elseif ([] !== $value) {
         throw new InvalidConfigurationException(\'The node created by "NAME()" has already been initialized. You cannot pass values the second time you call NAME().\');
     }
 
@@ -192,12 +159,11 @@ COMMENT * @return $this
  */
 public function NAME($valueDEFAULT): self
 {
-    $this->_usedProperties[\'PROPERTY\'] = true;
     $this->PROPERTY = $value;
 
     return $this;
 }';
-        $class->addMethod($node->getName(), $body, ['PROPERTY' => $property->getName(), 'COMMENT' => $comment, 'DEFAULT' => $node->hasDefaultValue() ? ' = '.var_export($node->getDefaultValue(), true) : '']);
+        $class->addMethod($node->getName(), $body, ['PROPERTY' => $property->getName(),  'COMMENT' => $comment, 'DEFAULT' => $node->hasDefaultValue() ? ' = '.var_export($node->getDefaultValue(), true) : '']);
     }
 
     private function handlePrototypedArrayNode(PrototypedArrayNode $node, ClassBuilder $class, string $namespace): void
@@ -219,7 +185,6 @@ public function NAME($valueDEFAULT): self
  */
 public function NAME($value): self
 {
-    $this->_usedProperties[\'PROPERTY\'] = true;
     $this->PROPERTY = $value;
 
     return $this;
@@ -234,7 +199,6 @@ public function NAME($value): self
  */
 public function NAME(string $VAR, $VALUE): self
 {
-    $this->_usedProperties[\'PROPERTY\'] = true;
     $this->PROPERTY[$VAR] = $VALUE;
 
     return $this;
@@ -247,74 +211,29 @@ public function NAME(string $VAR, $VALUE): self
         }
 
         $childClass = new ClassBuilder($namespace, $name);
-        if ($prototype instanceof ArrayNode) {
-            $childClass->setAllowExtraKeys($prototype->shouldIgnoreExtraKeys());
-        }
         $class->addRequire($childClass);
         $this->classes[] = $childClass;
-
-        $hasNormalizationClosures = $this->hasNormalizationClosures($node) || $this->hasNormalizationClosures($prototype);
-        $property = $class->addProperty(
-            $node->getName(),
-            $this->getType($childClass->getFqcn().'[]', $hasNormalizationClosures)
-        );
+        $property = $class->addProperty($node->getName(), $childClass->getFqcn().'[]');
 
         if (null === $key = $node->getKeyAttribute()) {
-            $body = $hasNormalizationClosures ? '
-/**
- * @return CLASS|$this
- */
-public function NAME($value = [])
-{
-    $this->_usedProperties[\'PROPERTY\'] = true;
-    if (!\is_array($value)) {
-        $this->PROPERTY[] = $value;
-
-        return $this;
-    }
-
-    return $this->PROPERTY[] = new CLASS($value);
-}' : '
+            $body = '
 public function NAME(array $value = []): CLASS
 {
-    $this->_usedProperties[\'PROPERTY\'] = true;
-
     return $this->PROPERTY[] = new CLASS($value);
 }';
             $class->addMethod($methodName, $body, ['PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn()]);
         } else {
-            $body = $hasNormalizationClosures ? '
-/**
- * @return CLASS|$this
- */
-public function NAME(string $VAR, $VALUE = [])
-{
-    if (!\is_array($VALUE)) {
-        $this->_usedProperties[\'PROPERTY\'] = true;
-        $this->PROPERTY[$VAR] = $VALUE;
-
-        return $this;
-    }
-
-    if (!isset($this->PROPERTY[$VAR]) || !$this->PROPERTY[$VAR] instanceof CLASS) {
-        $this->_usedProperties[\'PROPERTY\'] = true;
-        $this->PROPERTY[$VAR] = new CLASS($VALUE);
-    } elseif (1 < \func_num_args()) {
-        throw new InvalidConfigurationException(\'The node created by "NAME()" has already been initialized. You cannot pass values the second time you call NAME().\');
-    }
-
-    return $this->PROPERTY[$VAR];
-}' : '
+            $body = '
 public function NAME(string $VAR, array $VALUE = []): CLASS
 {
     if (!isset($this->PROPERTY[$VAR])) {
-        $this->_usedProperties[\'PROPERTY\'] = true;
-        $this->PROPERTY[$VAR] = new CLASS($VALUE);
-    } elseif (1 < \func_num_args()) {
-        throw new InvalidConfigurationException(\'The node created by "NAME()" has already been initialized. You cannot pass values the second time you call NAME().\');
+        return $this->PROPERTY[$VAR] = new CLASS($value);
+    }
+    if ([] === $value) {
+        return $this->PROPERTY[$VAR];
     }
 
-    return $this->PROPERTY[$VAR];
+    throw new InvalidConfigurationException(\'The node created by "NAME()" has already been initialized. You cannot pass values the second time you call NAME().\');
 }';
             $class->addUse(InvalidConfigurationException::class);
             $class->addMethod($methodName, $body, ['PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn(), 'VAR' => '' === $key ? 'key' : $key, 'VALUE' => 'value' === $key ? 'data' : 'value']);
@@ -335,7 +254,6 @@ COMMENT * @return $this
  */
 public function NAME($value): self
 {
-    $this->_usedProperties[\'PROPERTY\'] = true;
     $this->PROPERTY = $value;
 
     return $this;
@@ -379,31 +297,31 @@ public function NAME($value): self
     {
         $comment = '';
         if ('' !== $info = (string) $node->getInfo()) {
-            $comment .= ' * '.$info."\n";
+            $comment .= ' * '.$info.\PHP_EOL;
         }
 
         foreach ((array) ($node->getExample() ?? []) as $example) {
-            $comment .= ' * @example '.$example."\n";
+            $comment .= ' * @example '.$example.\PHP_EOL;
         }
 
         if ('' !== $default = $node->getDefaultValue()) {
-            $comment .= ' * @default '.(null === $default ? 'null' : var_export($default, true))."\n";
+            $comment .= ' * @default '.(null === $default ? 'null' : var_export($default, true)).\PHP_EOL;
         }
 
         if ($node instanceof EnumNode) {
             $comment .= sprintf(' * @param ParamConfigurator|%s $value', implode('|', array_map(function ($a) {
                 return var_export($a, true);
-            }, $node->getValues())))."\n";
+            }, $node->getValues()))).\PHP_EOL;
         } else {
             $parameterType = $this->getParameterType($node);
             if (null === $parameterType || '' === $parameterType) {
                 $parameterType = 'mixed';
             }
-            $comment .= ' * @param ParamConfigurator|'.$parameterType.' $value'."\n";
+            $comment .= ' * @param ParamConfigurator|'.$parameterType.' $value'.\PHP_EOL;
         }
 
         if ($node->isDeprecated()) {
-            $comment .= ' * @deprecated '.$node->getDeprecation($node->getName(), $node->getParent()->getName())['message']."\n";
+            $comment .= ' * @deprecated '.$node->getDeprecation($node->getName(), $node->getParent()->getName())['message'].\PHP_EOL;
         }
 
         return $comment;
@@ -438,33 +356,26 @@ public function NAME($value): self
             $code = '$this->PROPERTY';
             if (null !== $p->getType()) {
                 if ($p->isArray()) {
-                    $code = $p->areScalarsAllowed()
-                        ? 'array_map(function ($v) { return $v instanceof CLASS ? $v->toArray() : $v; }, $this->PROPERTY)'
-                        : 'array_map(function ($v) { return $v->toArray(); }, $this->PROPERTY)'
-                    ;
+                    $code = 'array_map(function ($v) { return $v->toArray(); }, $this->PROPERTY)';
                 } else {
-                    $code = $p->areScalarsAllowed()
-                        ? '$this->PROPERTY instanceof CLASS ? $this->PROPERTY->toArray() : $this->PROPERTY'
-                        : '$this->PROPERTY->toArray()'
-                    ;
+                    $code = '$this->PROPERTY->toArray()';
                 }
             }
 
             $body .= strtr('
-    if (isset($this->_usedProperties[\'PROPERTY\'])) {
+    if (null !== $this->PROPERTY) {
         $output[\'ORG_NAME\'] = '.$code.';
-    }', ['PROPERTY' => $p->getName(), 'ORG_NAME' => $p->getOriginalName(), 'CLASS' => $p->getType()]);
+    }', ['PROPERTY' => $p->getName(), 'ORG_NAME' => $p->getOriginalName()]);
         }
-
-        $extraKeys = $class->shouldAllowExtraKeys() ? ' + $this->_extraKeys' : '';
 
         $class->addMethod('toArray', '
 public function NAME(): array
 {
     '.$body.'
 
-    return $output'.$extraKeys.';
-}');
+    return $output;
+}
+');
     }
 
     private function buildConstructor(ClassBuilder $class): void
@@ -474,88 +385,36 @@ public function NAME(): array
             $code = '$value[\'ORG_NAME\']';
             if (null !== $p->getType()) {
                 if ($p->isArray()) {
-                    $code = $p->areScalarsAllowed()
-                        ? 'array_map(function ($v) { return \is_array($v) ? new '.$p->getType().'($v) : $v; }, $value[\'ORG_NAME\'])'
-                        : 'array_map(function ($v) { return new '.$p->getType().'($v); }, $value[\'ORG_NAME\'])'
-                    ;
+                    $code = 'array_map(function ($v) { return new '.$p->getType().'($v); }, $value[\'ORG_NAME\'])';
                 } else {
-                    $code = $p->areScalarsAllowed()
-                        ? '\is_array($value[\'ORG_NAME\']) ? new '.$p->getType().'($value[\'ORG_NAME\']) : $value[\'ORG_NAME\']'
-                        : 'new '.$p->getType().'($value[\'ORG_NAME\'])'
-                    ;
+                    $code = 'new '.$p->getType().'($value[\'ORG_NAME\'])';
                 }
             }
 
             $body .= strtr('
-    if (array_key_exists(\'ORG_NAME\', $value)) {
-        $this->_usedProperties[\'PROPERTY\'] = true;
+    if (isset($value[\'ORG_NAME\'])) {
         $this->PROPERTY = '.$code.';
         unset($value[\'ORG_NAME\']);
     }
 ', ['PROPERTY' => $p->getName(), 'ORG_NAME' => $p->getOriginalName()]);
         }
 
-        if ($class->shouldAllowExtraKeys()) {
-            $body .= '
-    $this->_extraKeys = $value;
-';
-        } else {
-            $body .= '
+        $body .= '
     if ([] !== $value) {
         throw new InvalidConfigurationException(sprintf(\'The following keys are not supported by "%s": \', __CLASS__).implode(\', \', array_keys($value)));
     }';
 
-            $class->addUse(InvalidConfigurationException::class);
-        }
-
+        $class->addUse(InvalidConfigurationException::class);
         $class->addMethod('__construct', '
 public function __construct(array $value = [])
-{'.$body.'
-}');
-    }
-
-    private function buildSetExtraKey(ClassBuilder $class): void
-    {
-        if (!$class->shouldAllowExtraKeys()) {
-            return;
-        }
-
-        $class->addUse(ParamConfigurator::class);
-
-        $class->addProperty('_extraKeys');
-
-        $class->addMethod('set', '
-/**
- * @param ParamConfigurator|mixed $value
- * @return $this
- */
-public function NAME(string $key, $value): self
 {
-    $this->_extraKeys[$key] = $value;
-
-    return $this;
-}');
+'.$body.'
+}
+');
     }
 
     private function getSubNamespace(ClassBuilder $rootClass): string
     {
         return sprintf('%s\\%s', $rootClass->getNamespace(), substr($rootClass->getName(), 0, -6));
-    }
-
-    private function hasNormalizationClosures(NodeInterface $node): bool
-    {
-        try {
-            $r = new \ReflectionProperty($node, 'normalizationClosures');
-        } catch (\ReflectionException $e) {
-            return false;
-        }
-        $r->setAccessible(true);
-
-        return [] !== $r->getValue($node);
-    }
-
-    private function getType(string $classType, bool $hasNormalizationClosures): string
-    {
-        return $classType.($hasNormalizationClosures ? '|scalar' : '');
     }
 }

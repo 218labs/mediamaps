@@ -154,8 +154,6 @@ $catalogue = new MessageCatalogue('az', array (
     'Account is locked.' => 'Hesab kilitlənib.',
     'Too many failed login attempts, please try again later.' => 'Çoxlu uğursuz giriş təşəbbüsü, zəhmət olmasa daha sonra yeniden yoxlayın.',
     'Invalid or expired login link.' => 'Yanlış və ya müddəti keçmiş giriş keçidi.',
-    'Too many failed login attempts, please try again in %minutes% minute.' => 'Həddindən artıq uğursuz giriş cəhdi, lütfən %minutes% dəqiqə ərzində yenidən yoxlayın.',
-    'Too many failed login attempts, please try again in %minutes% minutes.' => 'Həddindən artıq uğursuz giriş cəhdi, lütfən %minutes% dəqiqə ərzində yenidən yoxlayın.',
   ),
 ));
 

@@ -154,8 +154,6 @@ $catalogue = new MessageCatalogue('no', array (
     'Account is locked.' => 'Brukerkonto er sperret.',
     'Too many failed login attempts, please try again later.' => 'For mange mislykkede påloggingsforsøk. Prøv igjen senere.',
     'Invalid or expired login link.' => 'Ugyldig eller utløpt påloggingskobling.',
-    'Too many failed login attempts, please try again in %minutes% minute.' => 'For mange mislykkede påloggingsforsøk, prøv igjen om %minutes% minutt.',
-    'Too many failed login attempts, please try again in %minutes% minutes.' => 'For mange mislykkede påloggingsforsøk, prøv igjen om %minutes% minutter.',
   ),
 ));
 

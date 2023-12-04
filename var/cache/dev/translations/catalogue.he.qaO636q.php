@@ -154,8 +154,6 @@ $catalogue = new MessageCatalogue('he', array (
     'Account is locked.' => 'החשבון נעול.',
     'Too many failed login attempts, please try again later.' => 'יותר מדי ניסיונות כניסה כושלים, אנא נסה שוב מאוחר יותר.',
     'Invalid or expired login link.' => 'קישור כניסה לא חוקי או שפג תוקפו.',
-    'Too many failed login attempts, please try again in %minutes% minute.' => 'יותר מדי ניסיונות כניסה כושלים, אנא נסה שוב בוד %minutes% דקה.',
-    'Too many failed login attempts, please try again in %minutes% minutes.' => 'יותר מדי ניסיונות כניסה כושלים, אנא נסה שוב בוד %minutes% דקות.',
   ),
 ));
 

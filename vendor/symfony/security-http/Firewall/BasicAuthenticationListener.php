@@ -78,7 +78,7 @@ class BasicAuthenticationListener extends AbstractListener
 
         if (null !== $token = $this->tokenStorage->getToken()) {
             // @deprecated since Symfony 5.3, change to $token->getUserIdentifier() in 6.0
-            if ($token instanceof UsernamePasswordToken && $token->isAuthenticated(false) && (method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername()) === $username) {
+            if ($token instanceof UsernamePasswordToken && $token->isAuthenticated() && (method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername()) === $username) {
                 return;
             }
         }
@@ -88,10 +88,9 @@ class BasicAuthenticationListener extends AbstractListener
         }
 
         try {
-            $previousToken = $token;
             $token = $this->authenticationManager->authenticate(new UsernamePasswordToken($username, $request->headers->get('PHP_AUTH_PW'), $this->providerKey));
 
-            $this->migrateSession($request, $token, $previousToken);
+            $this->migrateSession($request, $token);
 
             $this->tokenStorage->setToken($token);
         } catch (AuthenticationException $e) {
@@ -122,19 +121,10 @@ class BasicAuthenticationListener extends AbstractListener
         $this->sessionStrategy = $sessionStrategy;
     }
 
-    private function migrateSession(Request $request, TokenInterface $token, ?TokenInterface $previousToken)
+    private function migrateSession(Request $request, TokenInterface $token)
     {
         if (!$this->sessionStrategy || !$request->hasSession() || !$request->hasPreviousSession()) {
             return;
-        }
-
-        if ($previousToken) {
-            $user = method_exists($token, 'getUserIdentifier') ? $token->getUserIdentifier() : $token->getUsername();
-            $previousUser = method_exists($previousToken, 'getUserIdentifier') ? $previousToken->getUserIdentifier() : $previousToken->getUsername();
-
-            if ('' !== ($user ?? '') && $user === $previousUser) {
-                return;
-            }
         }
 
         $this->sessionStrategy->onAuthentication($request, $token);

@@ -94,10 +94,7 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
         }
 
         if ($token instanceof SwitchUserToken) {
-            $roles = $user->getRoles();
-            $roles[] = 'ROLE_PREVIOUS_ADMIN';
-
-            $authenticatedToken = new SwitchUserToken($user, $token->getCredentials(), $this->providerKey, $roles, $token->getOriginalToken());
+            $authenticatedToken = new SwitchUserToken($user, $token->getCredentials(), $this->providerKey, $user->getRoles(), $token->getOriginalToken());
         } else {
             $authenticatedToken = new UsernamePasswordToken($user, $token->getCredentials(), $this->providerKey, $user->getRoles());
         }
@@ -118,7 +115,7 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
     /**
      * Retrieves the user from an implementation-specific location.
      *
-     * @return UserInterface
+     * @return UserInterface The user
      *
      * @throws AuthenticationException if the credentials could not be validated
      */

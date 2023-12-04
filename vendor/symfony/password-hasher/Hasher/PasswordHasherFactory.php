@@ -71,14 +71,6 @@ class PasswordHasherFactory implements PasswordHasherFactoryInterface
      */
     private function createHasher(array $config, bool $isExtra = false): PasswordHasherInterface
     {
-        if (isset($config['instance'])) {
-            if (!isset($config['migrate_from'])) {
-                return $config['instance'];
-            }
-
-            $config = $this->getMigratingPasswordConfig($config);
-        }
-
         if (isset($config['algorithm'])) {
             $rawConfig = $config;
             $config = $this->getHasherConfigFromAlgorithm($config);
@@ -150,8 +142,24 @@ class PasswordHasherFactory implements PasswordHasherFactoryInterface
             ];
         }
 
-        if ($config['migrate_from'] ?? false) {
-            return $this->getMigratingPasswordConfig($config);
+        if ($frompasswordHashers = ($config['migrate_from'] ?? false)) {
+            unset($config['migrate_from']);
+            $hasherChain = [$this->createHasher($config, true)];
+
+            foreach ($frompasswordHashers as $name) {
+                if (isset($this->passwordHashers[$name])) {
+                    $hasher = $this->createHasherUsingAdapter($name);
+                } else {
+                    $hasher = $this->createHasher(['algorithm' => $name], true);
+                }
+
+                $hasherChain[] = $hasher;
+            }
+
+            return [
+                'class' => MigratingPasswordHasher::class,
+                'arguments' => $hasherChain,
+            ];
         }
 
         switch ($config['algorithm']) {
@@ -229,28 +237,6 @@ class PasswordHasherFactory implements PasswordHasherFactoryInterface
                 $config['encode_as_base64'] ?? true,
                 $config['iterations'] ?? 5000,
             ],
-        ];
-    }
-
-    private function getMigratingPasswordConfig(array $config): array
-    {
-        $frompasswordHashers = $config['migrate_from'];
-        unset($config['migrate_from']);
-        $hasherChain = [$this->createHasher($config, true)];
-
-        foreach ($frompasswordHashers as $name) {
-            if ($this->passwordHashers[$name] ?? false) {
-                $hasher = $this->createHasherUsingAdapter($name);
-            } else {
-                $hasher = $this->createHasher(['algorithm' => $name], true);
-            }
-
-            $hasherChain[] = $hasher;
-        }
-
-        return [
-            'class' => MigratingPasswordHasher::class,
-            'arguments' => $hasherChain,
         ];
     }
 }

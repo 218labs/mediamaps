@@ -20,9 +20,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CookieTheftException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\RememberMe\RememberMeDetails;
@@ -70,7 +69,7 @@ class RememberMeAuthenticator implements InteractiveAuthenticatorInterface
             return false;
         }
 
-        if (!$request->cookies->has($this->cookieName) || !\is_scalar($request->cookies->all()[$this->cookieName] ?: null)) {
+        if (!$request->cookies->has($this->cookieName)) {
             return false;
         }
 
@@ -96,17 +95,7 @@ class RememberMeAuthenticator implements InteractiveAuthenticatorInterface
         }));
     }
 
-    /**
-     * @deprecated since Symfony 5.4, use {@link createToken()} instead
-     */
     public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
-    {
-        trigger_deprecation('symfony/security-http', '5.4', 'Method "%s()" is deprecated, use "%s::createToken()" instead.', __METHOD__, __CLASS__);
-
-        return $this->createToken($passport, $firewallName);
-    }
-
-    public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         return new RememberMeToken($passport->getUser(), $firewallName, $this->secret);
     }
@@ -119,7 +108,7 @@ class RememberMeAuthenticator implements InteractiveAuthenticatorInterface
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         if (null !== $this->logger) {
-            if ($exception instanceof UserNotFoundException) {
+            if ($exception instanceof UsernameNotFoundException) {
                 $this->logger->info('User for remember-me cookie not found.', ['exception' => $exception]);
             } elseif ($exception instanceof UnsupportedUserException) {
                 $this->logger->warning('User class for remember-me cookie not supported.', ['exception' => $exception]);

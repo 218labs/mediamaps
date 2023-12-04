@@ -34,7 +34,6 @@ class ClassBuilder
     private $require = [];
     private $use = [];
     private $implements = [];
-    private $allowExtraKeys = false;
 
     public function __construct(string $namespace, string $name)
     {
@@ -68,7 +67,7 @@ class ClassBuilder
             }
             $require .= sprintf('require_once __DIR__.\DIRECTORY_SEPARATOR.\'%s\';', implode('\'.\DIRECTORY_SEPARATOR.\'', $path))."\n";
         }
-        $use = $require ? "\n" : '';
+        $use = '';
         foreach (array_keys($this->use) as $statement) {
             $use .= sprintf('use %s;', $statement)."\n";
         }
@@ -81,7 +80,7 @@ class ClassBuilder
         foreach ($this->methods as $method) {
             $lines = explode("\n", $method->getContent());
             foreach ($lines as $line) {
-                $body .= ($line ? '    '.$line : '')."\n";
+                $body .= '    '.$line."\n";
             }
         }
 
@@ -89,9 +88,13 @@ class ClassBuilder
 
 namespace NAMESPACE;
 
-REQUIREUSE
+REQUIRE
+USE
+
 /**
- * This class is automatically generated to help in creating a config.
+ * This class is automatically generated to help creating config.
+ *
+ * @experimental in 5.3
  */
 class CLASS IMPLEMENTS
 {
@@ -122,15 +125,14 @@ BODY
         $this->methods[] = new Method(strtr($body, ['NAME' => $this->camelCase($name)] + $params));
     }
 
-    public function addProperty(string $name, string $classType = null, string $defaultValue = null): Property
+    public function addProperty(string $name, string $classType = null): Property
     {
-        $property = new Property($name, '_' !== $name[0] ? $this->camelCase($name) : $name);
+        $property = new Property($name, $this->camelCase($name));
         if (null !== $classType) {
             $property->setType($classType);
         }
         $this->properties[] = $property;
-        $defaultValue = null !== $defaultValue ? sprintf(' = %s', $defaultValue) : '';
-        $property->setContent(sprintf('private $%s%s;', $property->getName(), $defaultValue));
+        $property->setContent(sprintf('private $%s;', $property->getName()));
 
         return $property;
     }
@@ -160,15 +162,5 @@ BODY
     public function getFqcn(): string
     {
         return '\\'.$this->namespace.'\\'.$this->name;
-    }
-
-    public function setAllowExtraKeys(bool $allowExtraKeys): void
-    {
-        $this->allowExtraKeys = $allowExtraKeys;
-    }
-
-    public function shouldAllowExtraKeys(): bool
-    {
-        return $this->allowExtraKeys;
     }
 }

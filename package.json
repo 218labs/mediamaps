@@ -6,7 +6,8 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "screenshot": "node ../scriptsNode/screenShot.js"
     },
     "dependencies": {
         "@zoon/puphpeteer": "github:zoonru/puphpeteer",
@@ -15,6 +16,7 @@
         "bootstrap-icons": "^1.5.0",
         "moment": "^2.29.3",
         "prop-types": "^15.7.2",
+        "puppeteer": "^21.5.2",
         "react": "^17.0.1",
         "react-big-calendar": "^0.31.0",
         "react-bootstrap": "^1.6.4",

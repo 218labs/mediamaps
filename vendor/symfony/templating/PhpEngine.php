@@ -20,8 +20,6 @@ use Symfony\Component\Templating\Storage\StringStorage;
 /**
  * PhpEngine is an engine able to render PHP templates.
  *
- * @implements \ArrayAccess<string, HelperInterface>
- *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class PhpEngine implements EngineInterface, \ArrayAccess
@@ -120,7 +118,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
     /**
      * Evaluates a template.
      *
-     * @return string|false
+     * @return string|false The evaluated template, or false if the engine is unable to render the template
      *
      * @throws \InvalidArgumentException
      */
@@ -169,7 +167,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
      *
      * @param string $name The helper name
      *
-     * @return HelperInterface
+     * @return HelperInterface The helper value
      *
      * @throws \InvalidArgumentException if the helper is not defined
      */
@@ -184,7 +182,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
      *
      * @param string $name The helper name
      *
-     * @return bool
+     * @return bool true if the helper is defined, false otherwise
      */
     #[\ReturnTypeWillChange]
     public function offsetExists($name)
@@ -257,7 +255,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
     /**
      * Returns true if the helper if defined.
      *
-     * @return bool
+     * @return bool true if the helper is defined, false otherwise
      */
     public function has(string $name)
     {
@@ -267,7 +265,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
     /**
      * Gets a helper value.
      *
-     * @return HelperInterface
+     * @return HelperInterface The helper instance
      *
      * @throws \InvalidArgumentException if the helper is not defined
      */
@@ -293,7 +291,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
      *
      * @param mixed $value A variable to escape
      *
-     * @return mixed
+     * @return mixed The escaped value
      */
     public function escape($value, string $context = 'html')
     {
@@ -303,7 +301,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
 
         // If we deal with a scalar value, we can cache the result to increase
         // the performance when the same value is escaped multiple times (e.g. loops)
-        if (\is_scalar($value)) {
+        if (is_scalar($value)) {
             if (!isset(self::$escaperCache[$context][$value])) {
                 self::$escaperCache[$context][$value] = $this->getEscaper($context)($value);
             }
@@ -332,7 +330,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
     /**
      * Gets the current charset.
      *
-     * @return string
+     * @return string The current charset
      */
     public function getCharset()
     {
@@ -351,7 +349,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
     /**
      * Gets an escaper for a given context.
      *
-     * @return callable
+     * @return callable A PHP callable
      *
      * @throws \InvalidArgumentException
      */
@@ -410,7 +408,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
                  *
                  * @param string $value The value to escape
                  *
-                 * @return string
+                 * @return string the escaped value
                  */
                 function ($value) use ($flags) {
                     // Numbers and Boolean values get turned into strings which can cause problems
@@ -425,7 +423,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
                  *
                  * @param string $value The value to escape
                  *
-                 * @return string
+                 * @return string the escaped value
                  */
                 function ($value) {
                     if ('UTF-8' != $this->getCharset()) {
@@ -464,7 +462,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
     /**
      * Gets the loader associated with this engine.
      *
-     * @return LoaderInterface
+     * @return LoaderInterface A LoaderInterface instance
      */
     public function getLoader()
     {
@@ -476,7 +474,7 @@ class PhpEngine implements EngineInterface, \ArrayAccess
      *
      * @param string|TemplateReferenceInterface $name A template name or a TemplateReferenceInterface instance
      *
-     * @return Storage
+     * @return Storage A Storage instance
      *
      * @throws \InvalidArgumentException if the template cannot be found
      */

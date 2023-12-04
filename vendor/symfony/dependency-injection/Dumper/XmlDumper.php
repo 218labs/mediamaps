@@ -40,7 +40,7 @@ class XmlDumper extends Dumper
     /**
      * Dumps the service container as an XML string.
      *
-     * @return string
+     * @return string An xml string representing of the service container
      */
     public function dump(array $options = [])
     {
@@ -268,7 +268,7 @@ class XmlDumper extends Dumper
 
     private function convertParameters(array $parameters, string $type, \DOMElement $parent, string $keyAttribute = 'key')
     {
-        $withKeys = !array_is_list($parameters);
+        $withKeys = array_keys($parameters) !== range(0, \count($parameters) - 1);
         foreach ($parameters as $key => $value) {
             $element = $this->document->createElement($type);
             if ($withKeys) {
@@ -320,7 +320,7 @@ class XmlDumper extends Dumper
                 $element->setAttribute('type', 'expression');
                 $text = $this->document->createTextNode(self::phpToXml((string) $value));
                 $element->appendChild($text);
-            } elseif (\is_string($value) && !preg_match('/^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F]*+$/u', $value)) {
+            } elseif (\is_string($value) && !preg_match('/^[^\x00-\x08\x0B\x0E-\x1A\x1C-\x1F\x7F]*+$/u', $value)) {
                 $element->setAttribute('type', 'binary');
                 $text = $this->document->createTextNode(self::phpToXml(base64_encode($value)));
                 $element->appendChild($text);

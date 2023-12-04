@@ -20,8 +20,6 @@ use Symfony\Component\DependencyInjection\Reference;
  * Registers processors in Monolog loggers or handlers.
  *
  * @author Christophe Coevoet <stof@notk.org>
- *
- * @internalsince 3.9.0
  */
 class AddProcessorsPass implements CompilerPassInterface
 {

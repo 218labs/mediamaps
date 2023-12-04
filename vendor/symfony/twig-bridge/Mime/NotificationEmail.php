@@ -44,7 +44,7 @@ class NotificationEmail extends TemplatedEmail
     {
         $missingPackages = [];
         if (!class_exists(CssInlinerExtension::class)) {
-            $missingPackages['twig/cssinliner-extra'] = 'CSS Inliner';
+            $missingPackages['twig/cssinliner-extra'] = ' CSS Inliner';
         }
 
         if (!class_exists(InkyExtension::class)) {
@@ -69,9 +69,6 @@ class NotificationEmail extends TemplatedEmail
         return $email;
     }
 
-    /**
-     * @return $this
-     */
     public function markAsPublic(): self
     {
         $this->context['importance'] = null;
@@ -235,7 +232,7 @@ class NotificationEmail extends TemplatedEmail
      */
     public function __serialize(): array
     {
-        return [$this->context, $this->theme, parent::__serialize()];
+        return [$this->context, parent::__serialize()];
     }
 
     /**
@@ -243,12 +240,7 @@ class NotificationEmail extends TemplatedEmail
      */
     public function __unserialize(array $data): void
     {
-        if (3 === \count($data)) {
-            [$this->context, $this->theme, $parentData] = $data;
-        } else {
-            // Backwards compatibility for deserializing data structures that were serialized without the theme
-            [$this->context, $parentData] = $data;
-        }
+        [$this->context, $parentData] = $data;
 
         parent::__unserialize($parentData);
     }

@@ -66,8 +66,6 @@ class XmlFileLoader extends FileLoader
                 }
             }
         }
-
-        return null;
     }
 
     private function loadXml(\DOMDocument $xml, string $path, \DOMNode $root = null): void
@@ -687,7 +685,7 @@ EOF
             });
             $schema = '<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <xsd:include schemaLocation="file:///'.rawurlencode(str_replace('\\', '/', $tmpfile)).'" />
+  <xsd:include schemaLocation="file:///'.str_replace('\\', '/', $tmpfile).'" />
 </xsd:schema>';
             file_put_contents($tmpfile, '<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">

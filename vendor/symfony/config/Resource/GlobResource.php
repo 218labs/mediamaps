@@ -22,8 +22,6 @@ use Symfony\Component\Finder\Glob;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @final
- *
- * @implements \IteratorAggregate<string, \SplFileInfo>
  */
 class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
 {
@@ -109,9 +107,7 @@ class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
         $prefix = str_replace('\\', '/', $this->prefix);
         $paths = null;
 
-        if ('' === $this->pattern && is_file($prefix)) {
-            $paths = [$this->prefix];
-        } elseif (!str_starts_with($this->prefix, 'phar://') && !str_contains($this->pattern, '/**/')) {
+        if (!str_starts_with($this->prefix, 'phar://') && !str_contains($this->pattern, '/**/')) {
             if ($this->globBrace || !str_contains($this->pattern, '{')) {
                 $paths = glob($this->prefix.$this->pattern, \GLOB_NOSORT | $this->globBrace);
             } elseif (!str_contains($this->pattern, '\\') || !preg_match('/\\\\[,{}]/', $this->pattern)) {
@@ -172,21 +168,14 @@ class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
             throw new \LogicException(sprintf('Extended glob pattern "%s" cannot be used as the Finder component is not installed.', $this->pattern));
         }
 
-        if (is_file($prefix = $this->prefix)) {
-            $prefix = \dirname($prefix);
-            $pattern = basename($prefix).$this->pattern;
-        } else {
-            $pattern = $this->pattern;
-        }
-
         $finder = new Finder();
-        $regex = Glob::toRegex($pattern);
+        $regex = Glob::toRegex($this->pattern);
         if ($this->recursive) {
             $regex = substr_replace($regex, '(/|$)', -2, 1);
         }
 
-        $prefixLen = \strlen($prefix);
-        foreach ($finder->followLinks()->sortByName()->in($prefix) as $path => $info) {
+        $prefixLen = \strlen($this->prefix);
+        foreach ($finder->followLinks()->sortByName()->in($this->prefix) as $path => $info) {
             $normalizedPath = str_replace('\\', '/', $path);
             if (!preg_match($regex, substr($normalizedPath, $prefixLen)) || !$info->isFile()) {
                 continue;

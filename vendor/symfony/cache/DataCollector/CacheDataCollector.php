@@ -67,23 +67,27 @@ class CacheDataCollector extends DataCollector implements LateDataCollectorInter
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
+    public function getName()
     {
         return 'cache';
     }
 
     /**
      * Method returns amount of logged Cache reads: "get" calls.
+     *
+     * @return array
      */
-    public function getStatistics(): array
+    public function getStatistics()
     {
         return $this->data['instances']['statistics'];
     }
 
     /**
      * Method returns the statistic totals.
+     *
+     * @return array
      */
-    public function getTotals(): array
+    public function getTotals()
     {
         return $this->data['total']['statistics'];
     }
@@ -114,7 +118,7 @@ class CacheDataCollector extends DataCollector implements LateDataCollectorInter
             /** @var TraceableAdapterEvent $call */
             foreach ($calls as $call) {
                 ++$statistics[$name]['calls'];
-                $statistics[$name]['time'] += ($call->end ?? microtime(true)) - $call->start;
+                $statistics[$name]['time'] += $call->end - $call->start;
                 if ('get' === $call->name) {
                     ++$statistics[$name]['reads'];
                     if ($call->hits) {
@@ -136,8 +140,10 @@ class CacheDataCollector extends DataCollector implements LateDataCollectorInter
                     $statistics[$name]['misses'] += $call->misses;
                 } elseif ('hasItem' === $call->name) {
                     ++$statistics[$name]['reads'];
-                    foreach ($call->result ?? [] as $result) {
-                        ++$statistics[$name][$result ? 'hits' : 'misses'];
+                    if (false === $call->result) {
+                        ++$statistics[$name]['misses'];
+                    } else {
+                        ++$statistics[$name]['hits'];
                     }
                 } elseif ('save' === $call->name) {
                     ++$statistics[$name]['writes'];

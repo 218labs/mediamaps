@@ -13,6 +13,7 @@ namespace Symfony\Component\DependencyInjection\Loader;
 
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
+use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
@@ -126,7 +127,7 @@ class YamlFileLoader extends FileLoader
 
         // empty file
         if (null === $content) {
-            return null;
+            return;
         }
 
         $this->loadContent($content, $path);
@@ -145,8 +146,6 @@ class YamlFileLoader extends FileLoader
                 $this->env = $env;
             }
         }
-
-        return null;
     }
 
     private function loadContent(array $content, string $path)
@@ -220,7 +219,7 @@ class YamlFileLoader extends FileLoader
         }
     }
 
-    private function parseDefinitions(array $content, string $file, bool $trackBindings = true)
+    private function parseDefinitions(array $content, string $file)
     {
         if (!isset($content['services'])) {
             return;
@@ -246,14 +245,14 @@ class YamlFileLoader extends FileLoader
                 if (\is_string($service) && str_starts_with($service, '@')) {
                     throw new InvalidArgumentException(sprintf('Type definition "%s" cannot be an alias within "_instanceof" in "%s". Check your YAML syntax.', $id, $file));
                 }
-                $this->parseDefinition($id, $service, $file, [], false, $trackBindings);
+                $this->parseDefinition($id, $service, $file, []);
             }
         }
 
         $this->isLoadingInstanceof = false;
         $defaults = $this->parseDefaults($content, $file);
         foreach ($content['services'] as $id => $service) {
-            $this->parseDefinition($id, $service, $file, $defaults, false, $trackBindings);
+            $this->parseDefinition($id, $service, $file, $defaults);
         }
     }
 
@@ -304,7 +303,7 @@ class YamlFileLoader extends FileLoader
                 }
 
                 foreach ($tag as $attribute => $value) {
-                    if (!\is_scalar($value) && null !== $value) {
+                    if (!is_scalar($value) && null !== $value) {
                         throw new InvalidArgumentException(sprintf('Tag "%s", attribute "%s" in "_defaults" must be of a scalar-type in "%s". Check your YAML syntax.', $name, $attribute, $file));
                     }
                 }
@@ -342,7 +341,7 @@ class YamlFileLoader extends FileLoader
      *
      * @throws InvalidArgumentException When tags are invalid
      */
-    private function parseDefinition(string $id, $service, string $file, array $defaults, bool $return = false, bool $trackBindings = true)
+    private function parseDefinition(string $id, $service, string $file, array $defaults, bool $return = false)
     {
         if (preg_match('/^_[a-zA-Z0-9_]*$/', $id)) {
             throw new InvalidArgumentException(sprintf('Service names that start with an underscore are reserved. Rename the "%s" service or define it in XML instead.', $id));
@@ -616,7 +615,7 @@ class YamlFileLoader extends FileLoader
             }
 
             foreach ($tag as $attribute => $value) {
-                if (!\is_scalar($value) && null !== $value) {
+                if (!is_scalar($value) && null !== $value) {
                     throw new InvalidArgumentException(sprintf('A "tags" attribute must be of a scalar-type for service "%s", tag "%s", attribute "%s" in "%s". Check your YAML syntax.', $id, $name, $attribute, $file));
                 }
             }
@@ -666,7 +665,7 @@ class YamlFileLoader extends FileLoader
                 $bindingType = $this->isLoadingInstanceof ? BoundArgument::INSTANCEOF_BINDING : BoundArgument::SERVICE_BINDING;
                 foreach ($bindings as $argument => $value) {
                     if (!$value instanceof BoundArgument) {
-                        $bindings[$argument] = new BoundArgument($value, $trackBindings, $bindingType, $file);
+                        $bindings[$argument] = new BoundArgument($value, true, $bindingType, $file);
                     }
                 }
             }
@@ -707,9 +706,9 @@ class YamlFileLoader extends FileLoader
      *
      * @param string|array $callable A callable reference
      *
-     * @return string|array|Reference
-     *
      * @throws InvalidArgumentException When errors occur
+     *
+     * @return string|array|Reference A parsed callable
      */
     private function parseCallable($callable, string $parameter, string $id, string $file)
     {
@@ -743,7 +742,7 @@ class YamlFileLoader extends FileLoader
     /**
      * Loads a YAML file.
      *
-     * @return array|null
+     * @return array The file content
      *
      * @throws InvalidArgumentException when the given file is not a local file or when it does not exist
      */
@@ -804,7 +803,9 @@ class YamlFileLoader extends FileLoader
     }
 
     /**
-     * @return mixed
+     * Resolves services.
+     *
+     * @return array|string|Reference|ArgumentInterface
      */
     private function resolveServices($value, string $file, bool $isParameter = false)
     {
@@ -900,10 +901,6 @@ class YamlFileLoader extends FileLoader
                 $value[$k] = $this->resolveServices($v, $file, $isParameter);
             }
         } elseif (\is_string($value) && str_starts_with($value, '@=')) {
-            if ($isParameter) {
-                throw new InvalidArgumentException(sprintf('Using expressions in parameters is not allowed in "%s".', $file));
-            }
-
             if (!class_exists(Expression::class)) {
                 throw new \LogicException('The "@=" expression syntax cannot be used without the ExpressionLanguage component. Try running "composer require symfony/expression-language".');
             }

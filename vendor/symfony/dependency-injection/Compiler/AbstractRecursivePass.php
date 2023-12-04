@@ -70,7 +70,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
      *
      * @param mixed $value
      *
-     * @return mixed
+     * @return mixed The processed value
      */
     protected function processValue($value, bool $isRoot = false)
     {
@@ -175,9 +175,9 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
     }
 
     /**
-     * @return \ReflectionFunctionAbstract
-     *
      * @throws RuntimeException
+     *
+     * @return \ReflectionFunctionAbstract
      */
     protected function getReflectionMethod(Definition $definition, string $method)
     {

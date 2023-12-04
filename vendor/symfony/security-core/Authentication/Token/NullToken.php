@@ -33,7 +33,7 @@ class NullToken implements TokenInterface
 
     public function getUser()
     {
-        return null;
+        return '';
     }
 
     public function setUser($user)
@@ -53,21 +53,11 @@ class NullToken implements TokenInterface
         return '';
     }
 
-    /**
-     * @deprecated since Symfony 5.4
-     */
     public function isAuthenticated()
     {
-        if (0 === \func_num_args() || func_get_arg(0)) {
-            trigger_deprecation('symfony/security-core', '5.4', 'Method "%s()" is deprecated, return null from "getUser()" instead when a token is not authenticated.', __METHOD__);
-        }
-
         return true;
     }
 
-    /**
-     * @deprecated since Symfony 5.4
-     */
     public function setAuthenticated(bool $isAuthenticated)
     {
         throw new \BadMethodCallException('Cannot change authentication state of NullToken.');
@@ -115,7 +105,6 @@ class NullToken implements TokenInterface
      * @return string
      *
      * @internal in 5.3
-     *
      * @final in 5.3
      */
     public function serialize()
@@ -127,7 +116,6 @@ class NullToken implements TokenInterface
      * @return void
      *
      * @internal in 5.3
-     *
      * @final in 5.3
      */
     public function unserialize($serialized)

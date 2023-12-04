@@ -52,7 +52,7 @@ trait AbstractAdapterTrait
      *
      * @param array $ids The cache identifiers to fetch
      *
-     * @return array|\Traversable
+     * @return array|\Traversable The corresponding values found in the cache
      */
     abstract protected function doFetch(array $ids);
 
@@ -61,7 +61,7 @@ trait AbstractAdapterTrait
      *
      * @param string $id The identifier for which to check existence
      *
-     * @return bool
+     * @return bool True if item exists in the cache, false otherwise
      */
     abstract protected function doHave(string $id);
 
@@ -70,7 +70,7 @@ trait AbstractAdapterTrait
      *
      * @param string $namespace The prefix used for all identifiers managed by this pool
      *
-     * @return bool
+     * @return bool True if the pool was successfully cleared, false otherwise
      */
     abstract protected function doClear(string $namespace);
 
@@ -79,7 +79,7 @@ trait AbstractAdapterTrait
      *
      * @param array $ids An array of identifiers that should be removed from the pool
      *
-     * @return bool
+     * @return bool True if the items were successfully removed, false otherwise
      */
     abstract protected function doDelete(array $ids);
 
@@ -130,16 +130,13 @@ trait AbstractAdapterTrait
                 }
             }
             $namespaceToClear = $this->namespace.$namespaceVersionToClear;
-            $namespaceVersion = self::formatNamespaceVersion(mt_rand());
+            $namespaceVersion = strtr(substr_replace(base64_encode(pack('V', mt_rand())), static::NS_SEPARATOR, 5), '/', '_');
             try {
-                $e = $this->doSave([static::NS_SEPARATOR.$this->namespace => $namespaceVersion], 0);
+                $cleared = $this->doSave([static::NS_SEPARATOR.$this->namespace => $namespaceVersion], 0);
             } catch (\Exception $e) {
-            }
-            if (true !== $e && [] !== $e) {
                 $cleared = false;
-                $message = 'Failed to save the new namespace'.($e instanceof \Exception ? ': '.$e->getMessage() : '.');
-                CacheItem::log($this->logger, $message, ['exception' => $e instanceof \Exception ? $e : null, 'cache-adapter' => get_debug_type($this)]);
-            } else {
+            }
+            if ($cleared = true === $cleared || [] === $cleared) {
                 $this->namespaceVersion = $namespaceVersion;
                 $this->ids = [];
             }
@@ -297,7 +294,7 @@ trait AbstractAdapterTrait
      * When versioning is enabled, clearing the cache is atomic and doesn't require listing existing keys to proceed,
      * but old keys may need garbage collection and extra round-trips to the back-end are required.
      *
-     * Calling this method also clears the memoized namespace version and thus forces a resynchronization of it.
+     * Calling this method also clears the memoized namespace version and thus forces a resynchonization of it.
      *
      * @return bool the previous state of versioning
      */
@@ -365,10 +362,7 @@ trait AbstractAdapterTrait
         }
     }
 
-    /**
-     * @internal
-     */
-    protected function getId($key)
+    private function getId($key)
     {
         if ($this->versioningIsEnabled && '' === $this->namespaceVersion) {
             $this->ids = [];
@@ -377,16 +371,11 @@ trait AbstractAdapterTrait
                 foreach ($this->doFetch([static::NS_SEPARATOR.$this->namespace]) as $v) {
                     $this->namespaceVersion = $v;
                 }
-                $e = true;
                 if ('1'.static::NS_SEPARATOR === $this->namespaceVersion) {
-                    $this->namespaceVersion = self::formatNamespaceVersion(time());
-                    $e = $this->doSave([static::NS_SEPARATOR.$this->namespace => $this->namespaceVersion], 0);
+                    $this->namespaceVersion = strtr(substr_replace(base64_encode(pack('V', time())), static::NS_SEPARATOR, 5), '/', '_');
+                    $this->doSave([static::NS_SEPARATOR.$this->namespace => $this->namespaceVersion], 0);
                 }
             } catch (\Exception $e) {
-            }
-            if (true !== $e && [] !== $e) {
-                $message = 'Failed to save the new namespace'.($e instanceof \Exception ? ': '.$e->getMessage() : '.');
-                CacheItem::log($this->logger, $message, ['exception' => $e instanceof \Exception ? $e : null, 'cache-adapter' => get_debug_type($this)]);
             }
         }
 
@@ -397,7 +386,7 @@ trait AbstractAdapterTrait
         $this->ids[$key] = $key;
 
         if (\count($this->ids) > 1000) {
-            $this->ids = \array_slice($this->ids, 500, null, true); // stop memory leak if there are many keys
+            array_splice($this->ids, 0, 500); // stop memory leak if there are many keys
         }
 
         if (null === $this->maxIdLength) {
@@ -418,10 +407,5 @@ trait AbstractAdapterTrait
     public static function handleUnserializeCallback(string $class)
     {
         throw new \DomainException('Class not found: '.$class);
-    }
-
-    private static function formatNamespaceVersion(int $value): string
-    {
-        return strtr(substr_replace(base64_encode(pack('V', $value)), static::NS_SEPARATOR, 5), '/', '_');
     }
 }

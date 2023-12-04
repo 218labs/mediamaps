@@ -14,7 +14,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Symfony\Component\Config\Loader\ParamConfigurator;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
 use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
-use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Parameter;
@@ -26,7 +25,7 @@ abstract class AbstractConfigurator
     public const FACTORY = 'unknown';
 
     /**
-     * @var callable(mixed, bool)|null
+     * @var callable(mixed, bool $allowService)|null
      */
     public static $valuePreProcessor;
 
@@ -78,9 +77,7 @@ abstract class AbstractConfigurator
         }
 
         if ($value instanceof ReferenceConfigurator) {
-            $reference = new Reference($value->id, $value->invalidBehavior);
-
-            return $value instanceof ClosureReferenceConfigurator ? new ServiceClosureArgument($reference) : $reference;
+            return new Reference($value->id, $value->invalidBehavior);
         }
 
         if ($value instanceof InlineServiceConfigurator) {
@@ -100,7 +97,7 @@ abstract class AbstractConfigurator
 
         switch (true) {
             case null === $value:
-            case \is_scalar($value):
+            case is_scalar($value):
                 return $value;
 
             case $value instanceof ArgumentInterface:

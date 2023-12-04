@@ -154,8 +154,6 @@ $catalogue = new MessageCatalogue('lb', array (
     'Account is locked.' => 'De Konto ass gespaart.',
     'Too many failed login attempts, please try again later.' => 'Ze vill mësslonge Login-Versich, w.e.g. méi spéit nach emol probéieren.',
     'Invalid or expired login link.' => 'Ongëltegen oder ofgelafene Login-Link.',
-    'Too many failed login attempts, please try again in %minutes% minute.' => 'Zu vill fehlgeschloen Loginversich, w. e. g. probéiert nach am %minutes% Minutt.',
-    'Too many failed login attempts, please try again in %minutes% minutes.' => 'Zu vill fehlgeschloen Loginversich, w. e. g. probéiert nach an %minutes% Minutten.',
   ),
 ));
 

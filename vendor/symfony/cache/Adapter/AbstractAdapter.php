@@ -112,7 +112,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
             return $opcache;
         }
 
-        if (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) && !filter_var(\ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOLEAN)) {
+        if (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) && !filter_var(ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOLEAN)) {
             return $opcache;
         }
 
@@ -133,14 +133,10 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
             return MemcachedAdapter::createConnection($dsn, $options);
         }
         if (0 === strpos($dsn, 'couchbase:')) {
-            if (CouchbaseBucketAdapter::isSupported()) {
-                return CouchbaseBucketAdapter::createConnection($dsn, $options);
-            }
-
-            return CouchbaseCollectionAdapter::createConnection($dsn, $options);
+            return CouchbaseBucketAdapter::createConnection($dsn, $options);
         }
 
-        throw new InvalidArgumentException('Unsupported DSN: it does not start with "redis[s]:", "memcached:" nor "couchbase:".');
+        throw new InvalidArgumentException(sprintf('Unsupported DSN: "%s".', $dsn));
     }
 
     /**
@@ -155,12 +151,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         $retry = $this->deferred = [];
 
         if ($expiredIds) {
-            try {
-                $this->doDelete($expiredIds);
-            } catch (\Exception $e) {
-                $ok = false;
-                CacheItem::log($this->logger, 'Failed to delete expired items: '.$e->getMessage(), ['exception' => $e, 'cache-adapter' => get_debug_type($this)]);
-            }
+            $this->doDelete($expiredIds);
         }
         foreach ($byLifetime as $lifetime => $values) {
             try {

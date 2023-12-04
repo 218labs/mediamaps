@@ -56,7 +56,7 @@ class HttpUtils
      * @param string $path   A path (an absolute path (/foo), an absolute URL (http://...), or a route name (foo))
      * @param int    $status The status code
      *
-     * @return RedirectResponse
+     * @return RedirectResponse A RedirectResponse instance
      */
     public function createRedirectResponse(Request $request, string $path, int $status = 302)
     {
@@ -75,7 +75,7 @@ class HttpUtils
      *
      * @param string $path A path (an absolute path (/foo), an absolute URL (http://...), or a route name (foo))
      *
-     * @return Request
+     * @return Request A Request instance
      */
     public function createRequest(Request $request, string $path)
     {
@@ -118,11 +118,6 @@ class HttpUtils
     public function checkRequestPath(Request $request, string $path)
     {
         if ('/' !== $path[0]) {
-            // Shortcut if request has already been matched before
-            if ($request->attributes->has('_route')) {
-                return $path === $request->attributes->get('_route');
-            }
-
             try {
                 // matching a request is more powerful than matching a URL path + context, so try that first
                 if ($this->urlMatcher instanceof RequestMatcherInterface) {
@@ -147,15 +142,13 @@ class HttpUtils
      *
      * @param string $path A path (an absolute path (/foo), an absolute URL (http://...), or a route name (foo))
      *
-     * @return string
+     * @return string An absolute URL
      *
      * @throws \LogicException
      */
     public function generateUri(Request $request, string $path)
     {
-        $url = parse_url($path);
-
-        if ('' === $path || isset($url['scheme'], $url['host'])) {
+        if (str_starts_with($path, 'http') || !$path) {
             return $path;
         }
 

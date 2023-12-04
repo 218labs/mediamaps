@@ -212,7 +212,7 @@ class __TwigTemplate_71b2a9b90880dba0eec1c3467ad9678a9b539d353c192454a2f6cc40b80
         // line 8
         if (((isset($context["prepend"]) || array_key_exists("prepend", $context) ? $context["prepend"] : (function () { throw new RuntimeError('Variable "prepend" does not exist.', 8, $this->source); })()) || (isset($context["append"]) || array_key_exists("append", $context) ? $context["append"] : (function () { throw new RuntimeError('Variable "append" does not exist.', 8, $this->source); })()))) {
             // line 9
-            echo "<div class=\"input-group ";
+            echo "<div class=\"input-group";
             echo twig_escape_filter($this->env, ((array_key_exists("group_class", $context)) ? (_twig_default_filter((isset($context["group_class"]) || array_key_exists("group_class", $context) ? $context["group_class"] : (function () { throw new RuntimeError('Variable "group_class" does not exist.', 9, $this->source); })()), "")) : ("")), "html", null, true);
             echo "\">";
             // line 10
@@ -1247,7 +1247,7 @@ array_key_exists("type", $context)) ? (_twig_default_filter((isset($context["typ
     {%- set prepend = not (money_pattern starts with '{{') -%}
     {%- set append = not (money_pattern ends with '}}') -%}
     {%- if prepend or append -%}
-        <div class=\"input-group {{ group_class|default('') }}\">
+        <div class=\"input-group{{ group_class|default('') }}\">
             {%- if prepend -%}
                 <div class=\"input-group-prepend\">
                     <span class=\"input-group-text\">{{ money_pattern|form_encode_currency }}</span>

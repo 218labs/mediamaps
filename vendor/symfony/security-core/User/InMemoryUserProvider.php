@@ -24,16 +24,13 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
  */
 class InMemoryUserProvider implements UserProviderInterface
 {
-    /**
-     * @var array<string, UserInterface>
-     */
     private $users;
 
     /**
      * The user array is a hash where the keys are usernames and the values are
      * an array of attributes: 'password', 'enabled', and 'roles'.
      *
-     * @param array<string, array{password?: string, enabled?: bool, roles?: list<string>}> $users An array of users
+     * @param array $users An array of users
      */
     public function __construct(array $users = [])
     {
@@ -130,7 +127,7 @@ class InMemoryUserProvider implements UserProviderInterface
      *
      * @throws UserNotFoundException if user whose given username does not exist
      */
-    private function getUser(string $username)/* : InMemoryUser */
+    private function getUser(string $username)/*: InMemoryUser */
     {
         if (!isset($this->users[strtolower($username)])) {
             $ex = new UserNotFoundException(sprintf('Username "%s" does not exist.', $username));
