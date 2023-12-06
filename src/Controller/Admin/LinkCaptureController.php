@@ -59,58 +59,6 @@ class LinkCaptureController extends AbstractController
         $countLinks = count($links);
         $countLinkUpdate = 0;
         
-        /* if ($countLinks != 0)
-        {
-            $countLinkUpdate = $this->Screens($links);
-        } */
-
-        /* // size imageScreen 1000px
-        $size = 1000;
-        foreach ($links as $link) {
-            $url = $link->getLink();
-            // Check if the URL contains 'http://' or 'https://'
-            if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-                // If not, add 'https://'
-                $url = 'https://' . $url;
-            }
-
-            // get domain name
-            $pieces = parse_url($url);
-            $domain = isset($pieces['host']) ? $pieces['host'] : ''; 
-            if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)){ 
-                $domain = $regs['domain']; 
-            }
-
-            // imageName has name domain link and 
-            $imageName = $domain.Uuid::v4()->toRfc4122().'.jpg';
-
-            //Check the correctness of url
-            if (filter_var($url, FILTER_VALIDATE_URL) !== false)
-            {
-                try {
-                    // Run the Puppeteer script in a shell command
-                    // this is script node js
-                    // this script pass $url $imageName and $size
-                    $screen = shell_exec("node ../scriptsNode/screenShot.js $url $imageName $size");
-                    
-                    // If the screen was taken successfully, $screen == true
-                    if ($screen) {
-                        // Update the link entity with the image and status == true
-                        $link->setImage($imageName);
-                        $link->setStatus(true);
-
-                        // Update the link to the database
-                        $entityManager = $this->getDoctrine()->getManager();
-                        $entityManager->persist($link);
-                        $entityManager->flush();
-
-                        $countLinkUpdate++;
-                    } 
-                } catch(Exception $e) {
-                    return $e;
-                }
-            }
-        } */
         return $this->render('admin/link_capture/screenLinks.html.twig',
             [
                 'countLinks' => $countLinks,
