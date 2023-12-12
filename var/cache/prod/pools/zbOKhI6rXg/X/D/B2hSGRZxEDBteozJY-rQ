@@ -1,0 +1,165 @@
+<?php //App__Entity__MediaGeographicalSystem__CLASSMETADATA__
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\ClassMetadata')),
+        clone ($p['Doctrine\\ORM\\Id\\IdentityGenerator'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Id\\IdentityGenerator')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\MediaGeographicalSystem',
+            ],
+            'namespace' => [
+                'App\\Entity',
+            ],
+            'rootEntityName' => [
+                'App\\Entity\\MediaGeographicalSystem',
+            ],
+            'identifier' => [
+                [
+                    'id',
+                ],
+            ],
+            'generatorType' => [
+                4,
+            ],
+            'fieldMappings' => [
+                [
+                    'id' => [
+                        'fieldName' => 'id',
+                        'type' => 'integer',
+                        'scale' => null,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'id',
+                        'id' => true,
+                    ],
+                    'mediaId' => [
+                        'fieldName' => 'mediaId',
+                        'type' => 'integer',
+                        'scale' => null,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'media_id',
+                    ],
+                    'geographicalSystemId' => [
+                        'fieldName' => 'geographicalSystemId',
+                        'type' => 'integer',
+                        'scale' => null,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'geographical_system_id',
+                    ],
+                ],
+            ],
+            'fieldNames' => [
+                [
+                    'id' => 'id',
+                    'media_id' => 'mediaId',
+                    'geographical_system_id' => 'geographicalSystemId',
+                ],
+            ],
+            'columnNames' => [
+                [
+                    'id' => 'id',
+                    'mediaId' => 'media_id',
+                    'geographicalSystemId' => 'geographical_system_id',
+                ],
+            ],
+            'table' => [
+                [
+                    'name' => 'media_geographical_system',
+                ],
+            ],
+            'associationMappings' => [
+                [
+                    'media' => [
+                        'fieldName' => 'media',
+                        'joinColumns' => [
+                            [
+                                'name' => 'media_id',
+                                'unique' => false,
+                                'nullable' => false,
+                                'onDelete' => null,
+                                'columnDefinition' => null,
+                                'referencedColumnName' => 'id',
+                            ],
+                        ],
+                        'cascade' => [],
+                        'inversedBy' => 'geographicalSystems',
+                        'targetEntity' => 'App\\Entity\\Media',
+                        'fetch' => 2,
+                        'type' => 2,
+                        'mappedBy' => null,
+                        'isOwningSide' => true,
+                        'sourceEntity' => 'App\\Entity\\MediaGeographicalSystem',
+                        'isCascadeRemove' => false,
+                        'isCascadePersist' => false,
+                        'isCascadeRefresh' => false,
+                        'isCascadeMerge' => false,
+                        'isCascadeDetach' => false,
+                        'sourceToTargetKeyColumns' => [
+                            'media_id' => 'id',
+                        ],
+                        'joinColumnFieldNames' => [
+                            'media_id' => 'media_id',
+                        ],
+                        'targetToSourceKeyColumns' => [
+                            'id' => 'media_id',
+                        ],
+                        'orphanRemoval' => false,
+                    ],
+                    'geographicalSystem' => [
+                        'fieldName' => 'geographicalSystem',
+                        'joinColumns' => [
+                            [
+                                'name' => 'geographical_system_id',
+                                'unique' => false,
+                                'nullable' => false,
+                                'onDelete' => null,
+                                'columnDefinition' => null,
+                                'referencedColumnName' => 'id',
+                            ],
+                        ],
+                        'cascade' => [],
+                        'inversedBy' => null,
+                        'targetEntity' => 'App\\Entity\\GeographicalSystem',
+                        'fetch' => 2,
+                        'type' => 2,
+                        'mappedBy' => null,
+                        'isOwningSide' => true,
+                        'sourceEntity' => 'App\\Entity\\MediaGeographicalSystem',
+                        'isCascadeRemove' => false,
+                        'isCascadePersist' => false,
+                        'isCascadeRefresh' => false,
+                        'isCascadeMerge' => false,
+                        'isCascadeDetach' => false,
+                        'sourceToTargetKeyColumns' => [
+                            'geographical_system_id' => 'id',
+                        ],
+                        'joinColumnFieldNames' => [
+                            'geographical_system_id' => 'geographical_system_id',
+                        ],
+                        'targetToSourceKeyColumns' => [
+                            'id' => 'geographical_system_id',
+                        ],
+                        'orphanRemoval' => false,
+                    ],
+                ],
+            ],
+            'idGenerator' => [
+                $o[1],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];

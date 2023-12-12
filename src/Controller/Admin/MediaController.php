@@ -198,6 +198,11 @@ class MediaController extends BaseController
       }
     }*/
     
+    
+    // change status the media
+    if($entity->getLogo() && $entity->setVisitorsCount() > 0 && ($entity->getYoutube() || $entity->getFacebook() || $entity->getInstagram() || $entity->getTwitter())) {
+      $entity->setStatus('Completed');
+    }
 
     $em->persist($entity);
     $em->flush();

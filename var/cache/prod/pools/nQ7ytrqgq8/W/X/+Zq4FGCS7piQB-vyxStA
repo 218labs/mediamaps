@@ -1,0 +1,36 @@
+<?php //Cron%255CCronBundle%255CEntity%255CCronJob
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Table'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Table')),
+        clone ($p['Doctrine\\ORM\\Mapping\\UniqueConstraint'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\UniqueConstraint')),
+        clone ($p['Doctrine\\ORM\\Mapping\\Entity'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Entity')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'cron_job',
+                'un_name',
+            ],
+            'uniqueConstraints' => [
+                [
+                    $o[1],
+                ],
+            ],
+            'columns' => [
+                1 => [
+                    'name',
+                ],
+            ],
+            'repositoryClass' => [
+                2 => 'Cron\\CronBundle\\Entity\\CronJobRepository',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+        $o[2],
+    ],
+    []
+); }];

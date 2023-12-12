@@ -163,11 +163,15 @@ class Link
 
     public function setFileName(?string $file_name): self
     {
+        if (!empty($file_name)) {
+            $path = json_decode($file_name, true)['path'];
+            $file_name = str_replace('attachements/', '', $path);
+        }
         $this->file_name = $file_name;
 
         return $this;
     }
-
+    
      public function getAttachment(): ?string
     {
         return '/uploads/attachements/'.$this->file_name;
@@ -351,11 +355,12 @@ class Link
     }
 
     public function extractDomain(){
-    $pieces = parse_url($this->getLink());
-    $domain = isset($pieces['host']) ? $pieces['host'] : '';
-    if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)){
-        return $regs['domain'];
+        $pieces = parse_url($this->getLink());
+        $domain = isset($pieces['host']) ? $pieces['host'] : '';
+        if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)){
+            return $regs['domain'];
+        }
+        return '';
     }
-    return '';
-}
+    
 }

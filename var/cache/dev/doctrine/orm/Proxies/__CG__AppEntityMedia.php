@@ -67,10 +67,10 @@ class Media extends \App\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parentId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'logo', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'countryId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'website', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'visitorsCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'contact', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'email', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languageId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'telephone', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebook', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebookFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitter', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitterFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagram', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagramFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtube', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtubeFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'country', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'language', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'interests', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languages', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'geographicalSystems', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'socialNetworks', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parent'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parentId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'logo', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'countryId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'website', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'visitorsCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'contact', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'email', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languageId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'telephone', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebook', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebookFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitter', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitterFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagram', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagramFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtube', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtubeFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'status', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'country', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'language', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'interests', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languages', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'geographicalSystems', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'socialNetworks', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parent'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parentId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'logo', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'countryId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'website', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'visitorsCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'contact', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'email', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languageId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'telephone', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebook', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebookFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitter', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitterFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagram', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagramFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtube', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtubeFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'country', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'language', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'interests', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languages', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'geographicalSystems', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'socialNetworks', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parent'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parentId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'logo', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'countryId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'website', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'visitorsCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'contact', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'email', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languageId', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'telephone', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebook', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'facebookFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitter', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'twitterFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagram', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'instagramFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtube', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'youtubeFollowersCount', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'status', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'country', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'language', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'interests', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'languages', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'geographicalSystems', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'socialNetworks', '' . "\0" . 'App\\Entity\\Media' . "\0" . 'parent'];
     }
 
     /**
@@ -828,6 +828,28 @@ class Media extends \App\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
 
         return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStatus(): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', []);
+
+        return parent::getStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setStatus(string $status): \App\Entity\Media
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', [$status]);
+
+        return parent::setStatus($status);
     }
 
 }

@@ -1,0 +1,128 @@
+<?php //App__Entity__Log__CLASSMETADATA__
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\ClassMetadata')),
+        clone ($p['Doctrine\\ORM\\Id\\IdentityGenerator'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Id\\IdentityGenerator')),
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\Log',
+            ],
+            'namespace' => [
+                'App\\Entity',
+            ],
+            'rootEntityName' => [
+                'App\\Entity\\Log',
+            ],
+            'customRepositoryClassName' => [
+                'App\\Repository\\LogRepository',
+            ],
+            'identifier' => [
+                [
+                    'id',
+                ],
+            ],
+            'generatorType' => [
+                4,
+            ],
+            'fieldMappings' => [
+                [
+                    'id' => [
+                        'fieldName' => 'id',
+                        'type' => 'integer',
+                        'scale' => null,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'id' => true,
+                        'columnName' => 'id',
+                    ],
+                    'user_id' => [
+                        'fieldName' => 'user_id',
+                        'type' => 'integer',
+                        'scale' => null,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'user_id',
+                    ],
+                    'entity_id' => [
+                        'fieldName' => 'entity_id',
+                        'type' => 'integer',
+                        'scale' => null,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'entity_id',
+                    ],
+                    'entity_name' => [
+                        'fieldName' => 'entity_name',
+                        'type' => 'string',
+                        'scale' => null,
+                        'length' => 32,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'entity_name',
+                    ],
+                    'action_name' => [
+                        'fieldName' => 'action_name',
+                        'type' => 'string',
+                        'scale' => null,
+                        'length' => 32,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'action_name',
+                    ],
+                    'created_at' => [
+                        'fieldName' => 'created_at',
+                        'type' => 'datetime',
+                        'scale' => null,
+                        'length' => null,
+                        'unique' => false,
+                        'nullable' => false,
+                        'precision' => null,
+                        'columnName' => 'created_at',
+                    ],
+                ],
+            ],
+            'fieldNames' => [
+                [
+                    'id' => 'id',
+                    'user_id' => 'user_id',
+                    'entity_id' => 'entity_id',
+                    'entity_name' => 'entity_name',
+                    'action_name' => 'action_name',
+                    'created_at' => 'created_at',
+                ],
+            ],
+            'columnNames' => [
+                [
+                    'id' => 'id',
+                    'user_id' => 'user_id',
+                    'entity_id' => 'entity_id',
+                    'entity_name' => 'entity_name',
+                    'action_name' => 'action_name',
+                    'created_at' => 'created_at',
+                ],
+            ],
+            'table' => [
+                [
+                    'name' => 'log',
+                ],
+            ],
+            'idGenerator' => [
+                $o[1],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];

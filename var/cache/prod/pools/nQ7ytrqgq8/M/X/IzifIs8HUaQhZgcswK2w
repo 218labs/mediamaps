@@ -1,0 +1,3 @@
+<?php //Cron%255CCronBundle%255CEntity%255CCronJobRepository
+
+return [PHP_INT_MAX, []];

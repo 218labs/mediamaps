@@ -1,8 +1,8 @@
 <table class="table table-hover table-basic mb-0">
-  {% if link.fileName %}
+  {% if link.media.logo %}
   <tr>
-    <td>{{ "File"|trans }}</td>
-    <td><img src="{{ asset(link.fileName) }}" class="d-inline-block align-text-top" alt="{{ link.fileName }}" height="60" /></td>
+    <td>{{ "Logo"|trans }}</td>
+    <td><img src="{{ asset('/uploads/logos/' ~ link.media.logo) }}" class="d-inline-block align-text-top" alt="{{ link.media.logo }}" height="60" /></td>
   </tr>
   {% endif %}
   <tr>
@@ -35,14 +35,18 @@
   </tr>
   <tr>
     <td>{{ "Published on"|trans }}</td>
-    <td>{% if link.publishedOn is not empty %}{{ link.publishedOn|date("m/d/Y") : '' }} {% endif %}</td>
+    <td>{% if link.publishedOn is not empty %}{{ link.publishedOn|date("m/d/Y") }} {% endif %}</td>
   </tr>
-  {% if link.attachement %}
+  {% if link.fileName %}
   <tr>
     <td>{{ "File"|trans }}</td>
-    <td>{{ link.attachement }}</td>
+    <td><a href="{{ link.getAttachment() }}" target="_blank" />Download Attachment</td>
   </tr>
+  {% else %}
+  <tr>
+    <td>{{ "File"|trans }}</td>
+    <td>No Attachment</td>
+  </tr>    
   {% endif %}
-  
 
 </table>

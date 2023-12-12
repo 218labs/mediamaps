@@ -87,9 +87,9 @@ class __TwigTemplate_a271eb1d9cc62bf06a8f5a61b3290c2e7ffb36d1119a058625492d67c36
             // line 10
             echo "      <div class=\"col-sm-3 col-6 ps-1 mb-3 file-item\">
         <div class=\"card\">
-          <a href=\"/uploads/";
+          <a href=\"/uploads/attachements/";
             // line 12
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["file"], "path", [], "any", false, false, false, 12), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["file"], "name", [], "any", false, false, false, 12), "html", null, true);
             echo "\" target=\"_blank\" title=\"";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["file"], "name", [], "any", false, false, false, 12), "html", null, true);
             echo "\">
@@ -205,7 +205,7 @@ class __TwigTemplate_a271eb1d9cc62bf06a8f5a61b3290c2e7ffb36d1119a058625492d67c36
       {% for file in form.vars.files %}
       <div class=\"col-sm-3 col-6 ps-1 mb-3 file-item\">
         <div class=\"card\">
-          <a href=\"/uploads/{{ file.path }}\" target=\"_blank\" title=\"{{ file.name }}\">
+          <a href=\"/uploads/attachements/{{ file.name }}\" target=\"_blank\" title=\"{{ file.name }}\">
             {% set extension = file.path|split('.')|last|lower %}
             {% if extension in ['jpeg', 'jpg', 'png', 'gif'] %}
               <img src=\"/uploads/{{ file.path }}\" class=\"img-fluid\">

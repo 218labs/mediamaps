@@ -196,6 +196,13 @@ class Media
      */
     private $domain;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=20, options={"default": "pending"})
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -513,6 +520,7 @@ class Media
         $this->languages = new ArrayCollection();
         $this->socialNetworks = new ArrayCollection();
         $this->geographicalSystems = new ArrayCollection();
+        $this->status = 'pending';
     }
 
     /**
@@ -634,7 +642,16 @@ class Media
       return $this->getName();
     }
 
-    
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
 
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 
 }

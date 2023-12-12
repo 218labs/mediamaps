@@ -154,7 +154,7 @@ class LinkController extends BaseController
       'title' => $translator->trans("Link not found")
       ])
     ]);
-    
+    //dd($link);
     return $this->json([
       'content' => $this->renderView('layout/modal/index.html.twig', [
         'title' => $translator->trans("Link details"),
@@ -249,11 +249,10 @@ class LinkController extends BaseController
     //set language
     $ld = new Lang;
     $lang =  $ld->detect($entity->getTitle());
-
     $entity->setLang($lang);
-
-    if (isset($logo[0]) && !empty($file_name[0])) {
-      $entity->setFileName($file_name[0]);
+    
+    if (isset($file_name) && !empty($file_name)) {
+      $entity->setFileName($file_name);
     } else {
       $entity->setFileName('');
     }
@@ -505,4 +504,4 @@ class LinkController extends BaseController
   }
 
    
-  }
+}
