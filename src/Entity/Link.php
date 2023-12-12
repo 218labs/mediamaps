@@ -36,6 +36,7 @@ class Link
         $this->geographical_scope = 'Local';
         $this->orientation = 'Neutral';
         $this->published_on = new \DateTime();
+        $this->country_id = 0;
     }
 
     /**

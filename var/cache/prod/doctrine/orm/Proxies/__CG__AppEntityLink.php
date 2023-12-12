@@ -67,10 +67,10 @@ class Link extends \App\Entity\Link implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'link', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'file_name', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'geographical_scope', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'orientation', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'country_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'lang', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'published_on', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'status'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'link', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'file_name', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'geographical_scope', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'orientation', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'country_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'lang', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'published_on', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'link', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'file_name', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'geographical_scope', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'orientation', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'country_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'lang', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'published_on', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'status'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'link', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'file_name', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'geographical_scope', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'orientation', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'country_id', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'domain', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'lang', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'published_on', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'media', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'category', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'compaign', '' . "\0" . 'App\\Entity\\Link' . "\0" . 'language'];
     }
 
     /**
@@ -575,28 +575,6 @@ class Link extends \App\Entity\Link implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'extractDomain', []);
 
         return parent::extractDomain();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getStatus(): ?string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', []);
-
-        return parent::getStatus();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setStatus(string $status): \App\Entity\Link
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', [$status]);
-
-        return parent::setStatus($status);
     }
 
 }

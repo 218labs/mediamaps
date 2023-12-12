@@ -69,9 +69,9 @@ class __TwigTemplate_5d50df848c804dbdb2393cc0ce7a7c1b2f1ab164ac4de5a673da49e6c43
             // line 10
             echo "      <div class=\"col-sm-3 col-6 ps-1 mb-3 file-item\">
         <div class=\"card\">
-          <a href=\"/uploads/";
+          <a href=\"/uploads/attachements/";
             // line 12
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["file"], "path", [], "any", false, false, false, 12), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["file"], "name", [], "any", false, false, false, 12), "html", null, true);
             echo "\" target=\"_blank\" title=\"";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["file"], "name", [], "any", false, false, false, 12), "html", null, true);
             echo "\">

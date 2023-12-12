@@ -181,19 +181,6 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                         'precision' => null,
                         'columnName' => 'published_on',
                     ],
-                    'status' => [
-                        'fieldName' => 'status',
-                        'type' => 'string',
-                        'scale' => null,
-                        'length' => 20,
-                        'unique' => false,
-                        'nullable' => false,
-                        'precision' => null,
-                        'options' => [
-                            'default' => 'pending',
-                        ],
-                        'columnName' => 'status',
-                    ],
                 ],
             ],
             'fieldNames' => [
@@ -213,7 +200,6 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                     'domain' => 'domain',
                     'lang' => 'lang',
                     'published_on' => 'published_on',
-                    'status' => 'status',
                 ],
             ],
             'columnNames' => [
@@ -233,7 +219,6 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                     'domain' => 'domain',
                     'lang' => 'lang',
                     'published_on' => 'published_on',
-                    'status' => 'status',
                 ],
             ],
             'table' => [

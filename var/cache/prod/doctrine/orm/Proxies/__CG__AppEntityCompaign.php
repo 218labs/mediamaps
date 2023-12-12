@@ -67,10 +67,10 @@ class Compaign extends \App\Entity\Compaign implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'subject', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'begin_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'end_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'medias_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'subject', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'begin_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'end_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'medias_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'parentCompaign'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'subject', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'begin_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'end_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'medias_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'subject', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user_id', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'begin_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'end_on', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'medias_count', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'links', '' . "\0" . 'App\\Entity\\Compaign' . "\0" . 'parentCompaign'];
     }
 
     /**
@@ -355,6 +355,28 @@ class Compaign extends \App\Entity\Compaign implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
 
         return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParentCompaign(): ?\App\Entity\Compaign
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getParentCompaign', []);
+
+        return parent::getParentCompaign();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setParentCompaign(?\App\Entity\Compaign $parentCompaign): \App\Entity\Compaign
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setParentCompaign', [$parentCompaign]);
+
+        return parent::setParentCompaign($parentCompaign);
     }
 
 }

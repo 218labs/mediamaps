@@ -195,6 +195,42 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                         'isCascadeMerge' => false,
                         'isCascadeDetach' => false,
                     ],
+                    'parentCompaign' => [
+                        'fieldName' => 'parentCompaign',
+                        'joinColumns' => [
+                            [
+                                'name' => 'parent_id',
+                                'unique' => false,
+                                'nullable' => true,
+                                'onDelete' => null,
+                                'columnDefinition' => null,
+                                'referencedColumnName' => 'id',
+                            ],
+                        ],
+                        'cascade' => [],
+                        'inversedBy' => null,
+                        'targetEntity' => 'App\\Entity\\Compaign',
+                        'fetch' => 2,
+                        'type' => 2,
+                        'mappedBy' => null,
+                        'isOwningSide' => true,
+                        'sourceEntity' => 'App\\Entity\\Compaign',
+                        'isCascadeRemove' => false,
+                        'isCascadePersist' => false,
+                        'isCascadeRefresh' => false,
+                        'isCascadeMerge' => false,
+                        'isCascadeDetach' => false,
+                        'sourceToTargetKeyColumns' => [
+                            'parent_id' => 'id',
+                        ],
+                        'joinColumnFieldNames' => [
+                            'parent_id' => 'parent_id',
+                        ],
+                        'targetToSourceKeyColumns' => [
+                            'id' => 'parent_id',
+                        ],
+                        'orphanRemoval' => false,
+                    ],
                 ],
             ],
             'idGenerator' => [

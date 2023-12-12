@@ -9,7 +9,7 @@
       {% for file in form.vars.files %}
       <div class="col-sm-3 col-6 ps-1 mb-3 file-item">
         <div class="card">
-          <a href="/uploads/attachements/{{ file.name }}" target="_blank" title="{{ file.name }}">
+          <a href="/uploads/{{ file.path }}" target="_blank" title="{{ file.name }}">
             {% set extension = file.path|split('.')|last|lower %}
             {% if extension in ['jpeg', 'jpg', 'png', 'gif'] %}
               <img src="/uploads/{{ file.path }}" class="img-fluid">

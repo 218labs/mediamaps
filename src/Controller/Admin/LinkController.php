@@ -241,18 +241,17 @@ class LinkController extends BaseController
     $langRepo = $em->getRepository(Language::class);
     
     //update counters
-
-    
     $entity = $form->getData();
     $file_name = $request->get('file_name');
 
     //set language
     $ld = new Lang;
     $lang =  $ld->detect($entity->getTitle());
+
     $entity->setLang($lang);
-    
-    if (isset($file_name) && !empty($file_name)) {
-      $entity->setFileName($file_name);
+
+    if (isset($file_name[0]) && !empty($file_name[0])) {
+      $entity->setFileName($file_name[0]);
     } else {
       $entity->setFileName('');
     }
