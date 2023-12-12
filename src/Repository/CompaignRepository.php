@@ -107,6 +107,19 @@ class CompaignRepository extends ServiceEntityRepository
       return $result;
     }
 
-
+    /**
+     * Get child campaigns of a parent campaign.
+     *
+     * @param int $parentId
+     * @return Compaign[]
+     */
+    public function getChildCampaigns(int $parentId): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.parentCompaign = :parentId')
+            ->setParameter('parentId', $parentId)
+            ->getQuery()
+            ->getResult();
+    }
 
 }

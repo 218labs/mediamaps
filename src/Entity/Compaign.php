@@ -50,6 +50,10 @@ class Compaign
      */
     private $medias_count;
 
+    public function __construct()
+    {
+        //$this->links = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -159,6 +163,32 @@ class Compaign
 
     public function __toString() {
       return $this->getSubject();
+    }
+
+
+    // parent compaign
+    /**
+     * @ORM\ManyToOne(targetEntity=Compaign::class, inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+    */
+    private $parentCompaign;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Compaign::class, mappedBy="parentCompaign")
+     */
+    private $children;
+
+    public function getParentCompaign(): ?Compaign
+    {
+        return $this->parentCompaign;
+    }
+
+    public function setParentCompaign(?Compaign $parentCompaign): self
+    {
+        $this->parentCompaign = $parentCompaign;
+        $this->parentId = ($parentCompaign) ? $parentCompaign->getId() : null;
+
+        return $this;
     }
 
 }
