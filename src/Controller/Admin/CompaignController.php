@@ -18,6 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 class CompaignController extends BaseController
 {
    /**
@@ -180,27 +182,36 @@ class CompaignController extends BaseController
         'message' => (string) $form->getErrors(true, false)
       ]);
     }
-    $user_id = $user->getId();
-    $em = $this->getDoctrine()->getManager();
-    $entity = $form->getData();
-    $isNew = !$entity->getId();
-    if ( !$entity->getUser() ) $entity->setUser($user);
-    $em->persist($entity);
-    $em->flush();
+    try {
+      $user_id = $user->getId();
+      $em = $this->getDoctrine()->getManager();
+      $entity = $form->getData();
+      $isNew = !$entity->getId();
+      if ( !$entity->getUser() ) $entity->setUser($user);
 
-    // log activity
-    $em->getRepository(Log::class)->store(
-      $user_id,
-      $entity->getId(),
-      "compaign",
-      $isNew ? 'create' : 'update'
-    );
+      $em->persist($entity);
+      $em->flush();
 
-    return $this->json([
-      'tableId' => 'compaigns',
-      'status' => 'success',
-      'message' => $translator->trans("Compaign saved")
-    ]);
+      // log activity
+      $em->getRepository(Log::class)->store(
+        $user_id,
+        $entity->getId(),
+        "compaign",
+        $isNew ? 'create' : 'update'
+      );
+
+      return $this->json([
+        'tableId' => 'compaigns',
+        'status' => 'success',
+        'message' => $translator->trans("Compaign saved")
+      ]);
+    } catch(Exception $e){
+      // test dump
+      $response = new JsonResponse();
+      $response->setData(['data' => $e]);
+      dump(['data' => $e]);
+      return $response;
+    }
   }
 
   /**

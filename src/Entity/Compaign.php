@@ -50,6 +50,11 @@ class Compaign
      */
     private $medias_count;
 
+    public function __construct()
+    {
+        $this->links_count = 0;
+        $this->medias_count = 0;
+    }
     
     public function getId(): ?int
     {
