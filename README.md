@@ -1,7 +1,3 @@
 # mediamaps
 
 ## MediaMaps
-
-### MediaMaps
-
-#### MediaMaps
