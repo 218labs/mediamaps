@@ -642,16 +642,6 @@ class Media
       return $this->getName();
     }
 
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
+    
 
 }

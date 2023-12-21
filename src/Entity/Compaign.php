@@ -50,11 +50,7 @@ class Compaign
      */
     private $medias_count;
 
-    public function __construct()
-    {
-        $this->links_count = 0;
-        $this->medias_count = 0;
-    }
+    
     
     public function getId(): ?int
     {
@@ -168,24 +164,6 @@ class Compaign
     }
 
 
-    // parent compaign
-    /**
-     * @ORM\ManyToOne(targetEntity=Compaign::class)
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
-    */
-    private $parentCompaign;
-
-    public function getParentCompaign(): ?Compaign
-    {
-        return $this->parentCompaign;
-    }
-
-    public function setParentCompaign(?Compaign $parentCompaign): self
-    {
-        $this->parentCompaign = $parentCompaign;
-        $this->parentId = ($parentCompaign) ? $parentCompaign->getId() : null;
-
-        return $this;
-    }
+    
 
 }

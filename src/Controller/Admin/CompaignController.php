@@ -182,36 +182,27 @@ class CompaignController extends BaseController
         'message' => (string) $form->getErrors(true, false)
       ]);
     }
-    try {
-      $user_id = $user->getId();
-      $em = $this->getDoctrine()->getManager();
-      $entity = $form->getData();
-      $isNew = !$entity->getId();
-      if ( !$entity->getUser() ) $entity->setUser($user);
+    $user_id = $user->getId();
+    $em = $this->getDoctrine()->getManager();
+    $entity = $form->getData();
+    $isNew = !$entity->getId();
+    if ( !$entity->getUser() ) $entity->setUser($user);
+    $em->persist($entity);
+    $em->flush();
 
-      $em->persist($entity);
-      $em->flush();
+    // log activity
+    $em->getRepository(Log::class)->store(
+      $user_id,
+      $entity->getId(),
+      "compaign",
+      $isNew ? 'create' : 'update'
+    );
 
-      // log activity
-      $em->getRepository(Log::class)->store(
-        $user_id,
-        $entity->getId(),
-        "compaign",
-        $isNew ? 'create' : 'update'
-      );
-
-      return $this->json([
-        'tableId' => 'compaigns',
-        'status' => 'success',
-        'message' => $translator->trans("Compaign saved")
-      ]);
-    } catch(Exception $e){
-      // test dump
-      $response = new JsonResponse();
-      $response->setData(['data' => $e]);
-      dump(['data' => $e]);
-      return $response;
-    }
+    return $this->json([
+      'tableId' => 'compaigns',
+      'status' => 'success',
+      'message' => $translator->trans("Compaign saved")
+    ]);
   }
 
   /**
