@@ -1,6 +1,3 @@
 # mediamaps
 
 ## MediaMaps
-<<<<<<< HEAD
-=======
->>>>>>> main
