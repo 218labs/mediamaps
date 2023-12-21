@@ -40,7 +40,12 @@
   {% if link.fileName %}
   <tr>
     <td>{{ "File"|trans }}</td>
-    <td>{{ link.attachement }}</td>
+    <td><a href="{{ link.getAttachment() }}" target="_blank" />Download Attachment</td>
+  </tr>
+  {% else %}
+  <tr>
+    <td>{{ "File"|trans }}</td>
+    <td>No Attachment</td>
   </tr>    
   {% endif %}
 </table>

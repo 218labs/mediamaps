@@ -250,8 +250,8 @@ class LinkController extends BaseController
 
     $entity->setLang($lang);
 
-    if (isset($file_name) && !empty($file_name)) {
-      $entity->setFileName($file_name);
+    if (isset($file_name[0]) && !empty($file_name[0])) {
+      $entity->setFileName($file_name[0]);
     } else {
       $entity->setFileName('');
     }
