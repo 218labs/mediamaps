@@ -213,19 +213,49 @@ class CompaignController extends BaseController
   public function delete(Request $request, UserInterface $user, TranslatorInterface $translator)
   {
     $items = $request->get('items', [$request->get('id', 0)]);
+    $entityManager = $this->getDoctrine()->getManager();
+    $compaignRepository = $entityManager->getRepository(Compaign::class);
+    $linkRepository = $entityManager->getRepository(Link::class);
 
-    $this->getDoctrine()->getRepository(Compaign::class)
-      ->createQueryBuilder('s')
-      ->where('d.id IN(:items)')
-      ->setParameter('items', $items)
-      ->delete()
-      ->getQuery()
-      ->execute();
+    foreach ($items as $compaignId) {
+        $compaign = $compaignRepository->find($compaignId);
+
+        if (!$compaign) {
+            // Handle the case where the campaign is not found.
+            continue;
+        }
+
+        // Detach or nullify relationships
+        $children = $compaignRepository->getChildCampaigns($compaign->getId());
+        foreach ($children as $child) {
+            // If you want to cancel a relationship ChildCampaign with this Compaign
+            $child->setParentCompaign(null);
+
+            // Or, If you want to remove a Child Campaign
+            // $compaignRepository->remove($child);
+        }
+
+        $links = $compaign->getLinks();
+        foreach ($links as $link) {
+            // Assuming you have a method like setCompaign in your Link entity
+            //$link->setCompaign(null);
+
+            // Or, If you want to remove a like have relationship with this Campaign
+            $linkRepository->remove($link);
+        }
+
+        $entityManager->flush();
+
+        // Now you can safely delete the campaign
+        $compaignRepository->remove($compaign);
+    }
+
+    $entityManager->flush();
 
     if (count($items) > 1) {
-      $message = $translator->trans("Les compaigns ont été supprimées");
+        $message = $translator->trans("Les compaigns ont été supprimées");
     } else {
-      $message = $translator->trans("La compaigns a bien été supprimée");
+        $message = $translator->trans("La compaigns a bien été supprimée");
     }
 
     return $this->json([

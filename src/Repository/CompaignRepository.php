@@ -113,13 +113,13 @@ class CompaignRepository extends ServiceEntityRepository
      * @param int $parentId
      * @return Compaign[]
      */
-    /* public function getChildCampaigns(int $parentId): array
+    public function getChildCampaigns(int $parentId): array
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.parentCompaign = :parentId')
             ->setParameter('parentId', $parentId)
             ->getQuery()
             ->getResult();
-    } */
+    }
 
 }
